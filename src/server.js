@@ -4,7 +4,7 @@ const { connection } = require('./database/connection') // Configuração de ace
 const routes = require('./routes')
 
 class Server {
-  constructor (server = express())// Argumento do constructor auto iniciado da aplicação para usarmos as devidas funções do express
+  constructor (server = express()) //Argumento do constructor auto iniciado da aplicação para usarmos as devidas funções do express
   { 
     this.middlewares(server) // Instância do argumento da função para a função middlewares
     this.database()  // Instância da função database
@@ -27,7 +27,7 @@ class Server {
     }
   }
   async initializeServer(app) {
-    const PORT = 5000 // Valor da porta do servidor
+    const PORT = 3333 // Valor da porta do servidor
     app.listen(PORT, () => console.log(`Servidor executando na porta ${PORT}`)) // Execução do servidor
   }
 
