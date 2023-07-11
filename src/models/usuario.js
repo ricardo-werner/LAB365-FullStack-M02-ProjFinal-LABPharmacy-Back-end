@@ -2,7 +2,7 @@ const { INTEGER, STRING, DATE } = require('sequelize')
 const { connection } = require('../database/connection')
 
 
-const User = connection.define("user", {
+const Usuario = connection.define("usuario", {
     id: {
         type: INTEGER,
         primaryKey: true,
@@ -53,4 +53,4 @@ const User = connection.define("user", {
     updatedAt: DATE
 })
 
-module.exports = { User }
+module.exports = { Usuario}

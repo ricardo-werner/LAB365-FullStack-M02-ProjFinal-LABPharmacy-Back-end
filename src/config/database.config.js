@@ -1,7 +1,7 @@
 const { config } = require('dotenv')
 config()
 
-console.log(process.env)
+//console.log(process.env)
 
 module.exports = {
     dialect: process.env.DIALECT, //Qual banco de dados está utilizando;
