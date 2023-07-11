@@ -11,7 +11,12 @@ const Deposito = connection.define("deposito", {
   usuario_id: {
     type: INTEGER,
     allowNull: false,
-    references: { model: 'usuario', key: 'id' }
+    references: {
+      model: {
+          tablename: 'usuario',
+      },
+      key: 'id'
+  },
   },
   distribuidor_name: {
     type: STRING,

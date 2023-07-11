@@ -1,4 +1,4 @@
-const { INTEGER, STRING, DATE, ENUM } = require('sequelize')
+const { INTEGER, STRING, DATE, ENUM, BOOLEAN } = require('sequelize')
 const { connection } = require('../database/connection')
 
 
@@ -26,7 +26,7 @@ const Usuario = connection.define("usuario", {
         allowNull: false
       },
       have_special_needs: {
-        type: STRING
+        type: BOOLEAN
       },
       cpf: {
         type: STRING,
