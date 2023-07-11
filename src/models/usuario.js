@@ -1,4 +1,4 @@
-const { INTEGER, STRING, DATE } = require('sequelize')
+const { INTEGER, STRING, DATE, ENUM } = require('sequelize')
 const { connection } = require('../database/connection')
 
 
@@ -6,35 +6,48 @@ const Usuario = connection.define("usuario", {
     id: {
         type: INTEGER,
         primaryKey: true,
-        autoIncrement: true
-    },
-    name: {
-        type: STRING
-    },
-    lastName: {
-        type: STRING
-    },
-    gender: {
-        type: STRING
-    },
-    birth_day: {
-        type: DATE
-    },
-    cpf: {
+        autoIncrement: true,
+        allowNull: false
+      },
+      nome: {
         type: STRING,
-    },
-    primary_phone_contact: {
-        type: STRING
-    },
-    email: {
+        allowNull: false
+      },
+      sobrenome: {
         type: STRING,
+        allowNull: false
+      },
+      genero: {
+        type: STRING,
+        allowNull: true      
+      },
+      dt_nascimento: {
+        type: DATE,
+        allowNull: false
+      },
+      have_special_needs: {
+        type: STRING
+      },
+      cpf: {
+        type: STRING,
+        allowNull: false,
+        unique: true
+      },
+      telefone: {
+        type: STRING,
+        allowNull: true
+      },
+      email: {
+        type: STRING,
+        allowNull: false,
         validate: {
             isEmail: { msg: "Email Invalido" }
         },
         unique: { msg: "Email já existe" }
-    },
-    password: {
+      },
+      senha: {
         type: STRING,
+        allowNull: false,
         validate: {
             len: {
                 args: [8, 50],
@@ -45,16 +58,25 @@ const Usuario = connection.define("usuario", {
                 msg: "Senha muito fraca"
             }
         }
-    },
-    have_special_needs: {
-        type: STRING
-    },
-    status: {
-        type: STRING,
-        defaultValue: "Ativo"
-    },
-    createdAt: DATE,
-    updatedAt: DATE
-})
+      },
+      status: {
+        type: ENUM,
+        values: ['ativo', 'inativo'],
+        allowNull: false,
+        defaultValue: 'ativo'
+      },
+      created_at: {
+        type: DATE,
+        allowNull: false
+      },
+      updated_at: {
+        type: DATE,
+        allowNull: false
+      },
+      deleted_at: {
+        type: DATE,
+        allowNull: true
+      },
+  });
 
 module.exports = { Usuario }
