@@ -1,7 +1,7 @@
-const { User  } = require('../models/user')
+const { Usuario  } = require('../models/usuario')
 
-class UserController{
-    async createOneUser(request, response){
+class UsuarioController{
+    async createOneUsuario(request, response){
 
         try {
             const {
@@ -10,7 +10,7 @@ class UserController{
                 password
             } = request.body;
     
-             const data = await User.create({
+             const data = await Usuario.create({
                 name,
                 email,
                 password
@@ -29,7 +29,7 @@ class UserController{
         
     }
 
-    async loginUser(request, response) {
+    async loginUsuario(request, response) {
         try {            
             const {
                 email,
@@ -38,13 +38,13 @@ class UserController{
     
             console.log(request.body)
             
-            const user = await User.findOne({
+            const usuario = await Usuario.findOne({
                 where:{email:email}
             })
 
-            console.log(user)
+            console.log(usuario)
     
-            if (user.password === password){
+            if (usuario.password === password){
                 console.log("Senha Igual")
                 return response.status(200).send(`palavra_secreta: ${SECRET_KEY}`) 
             }
@@ -60,4 +60,4 @@ class UserController{
     }
 }
 
-module.exports = new UserController()
+module.exports = new UsuarioController()

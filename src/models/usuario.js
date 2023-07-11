@@ -28,18 +28,22 @@ const Usuario = connection.define("usuario", {
     },
     email: {
         type: STRING,
-        validate:{
-            isEmail: {msg: "Email Invalido"}
+        validate: {
+            isEmail: { msg: "Email Invalido" }
         },
-        unique: {msg: "Email já existe"}
+        unique: { msg: "Email já existe" }
     },
     password: {
         type: STRING,
-        validate:{
-            len:{args:[8,50], 
-                msg: "Senha precisa ter entre 8 a 50 char., sendo pelo menos 1 letra maiúscula, 1 minúscula e 1 número e 1 catacter especial"},
-            is: {args: "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$",
-            msg: "Senha muito fraca"}
+        validate: {
+            len: {
+                args: [8, 50],
+                msg: "Senha precisa ter entre 8 a 50 char., sendo pelo menos 1 letra maiúscula, 1 minúscula e 1 número e 1 catacter especial"
+            },
+            is: {
+                args: "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$",
+                msg: "Senha muito fraca"
+            }
         }
     },
     have_special_needs: {
@@ -53,4 +57,4 @@ const Usuario = connection.define("usuario", {
     updatedAt: DATE
 })
 
-module.exports = { Usuario}
+module.exports = { Usuario }
