@@ -1,21 +1,45 @@
 const { Deposito } = require('../models/deposito')
 
-class DepositoController{
-    async createOneDeposito(request, response){
+class DepositoController {
+    async createOneDeposito(request, response) {
 
         try {
             const {
-                name,
-                email,
-                password
+                id,
+                usuario_id,
+                distribuidor_name,
+                cnpj,
+                contato,
+                cep,
+                endereco,
+                bairro,
+                cidade,
+                estado,
+                numero,
+                complemento,
+                latitude,
+                longitude,
+                status
             } = request.body;
-    
-             const data = await Deposito.create({
-                name,
-                email,
-                password
+
+            const data = await Deposito.create({
+                id,
+                usuario_id,
+                distribuidor_name,
+                cnpj,
+                contato,
+                cep,
+                endereco,
+                bairro,
+                cidade,
+                estado,
+                numero,
+                complemento,
+                latitude,
+                longitude,
+                status
             })
-    
+
             return response.status(201).send(data)
         } catch (error) {
             return response.status(400).send(
@@ -27,5 +51,5 @@ class DepositoController{
         }
     }
 }
-    
+
 module.exports = new DepositoController()
