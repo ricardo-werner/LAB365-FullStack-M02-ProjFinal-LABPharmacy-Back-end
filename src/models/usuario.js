@@ -77,6 +77,6 @@ const Usuario = connection.define("usuario", {
         type: DATE,
         allowNull: true
       },
-  });
+  }, { underscore: true, paranoid: true });
 
 module.exports = { Usuario }
