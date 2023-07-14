@@ -38,13 +38,12 @@ module.exports = {
         allowNull: false,
       },
       tipo_medicamento: {
-        type: Sequelize.ENUM('Medicamento Controlado', 'Medicamento Não Controlado'),
-        allowNull: false,
-        defaultValue: 'Medicamento Não Controlado', // Valor padrão para a coluna "tipo"
+        type: Sequelize.ENUM('medicamento controlado', 'medicamento não controlado'),
+        allowNull: false
       },
       preco_unitario: {
         type: Sequelize.DECIMAL(10, 2),
-        allowNull: false,
+        allowNull: false
       },
       quantidade: {
         type: Sequelize.INTEGER,
@@ -67,5 +66,11 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('medicamentos');
+    return Promise.all([
+      queryInterface.dropTable('medicamentos'),
+      queryInterface.sequelize.query(
+        'DROP TYPE IF EXISTS "enum_medicamentos_tipo_medicamento";'
+      ),
+    ]);
   }
 };
