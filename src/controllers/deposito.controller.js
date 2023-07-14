@@ -7,7 +7,7 @@ class DepositoController {
             const {
                 id,
                 usuario_id,
-                distribuidor_name,
+                distribuidor_nome,
                 cnpj,
                 contato,
                 cep,
@@ -25,7 +25,7 @@ class DepositoController {
             const data = await Deposito.create({
                 id,
                 usuario_id,
-                distribuidor_name,
+                distribuidor_nome,
                 cnpj,
                 contato,
                 cep,

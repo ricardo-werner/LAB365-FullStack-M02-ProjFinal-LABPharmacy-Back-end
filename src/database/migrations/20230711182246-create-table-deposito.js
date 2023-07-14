@@ -21,7 +21,7 @@ module.exports = {
         },
         allowNull: true
       },
-      distribuidor_name: {
+      distribuidor_nome: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true

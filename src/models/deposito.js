@@ -12,7 +12,7 @@ const Deposito = connection.define("deposito", {
       key: 'id'
   },
   },
-  distribuidor_name: {
+  distribuidor_nome: {
     type: STRING,
     allowNull: false,
     unique: true
@@ -38,9 +38,6 @@ const Deposito = connection.define("deposito", {
     allowNull: false,
     defaultValue: 'ativo'
   },
-  created_at: DATE,
-  updated_at: DATE,
-  deleted_at: DATE,
-}, { underscored: true, paranoid: true })
+}, { underscored: true, paranoid: true, timestamps: true })
 
 module.exports = { Deposito }
