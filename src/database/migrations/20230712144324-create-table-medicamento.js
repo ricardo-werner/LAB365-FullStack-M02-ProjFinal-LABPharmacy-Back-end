@@ -10,11 +10,11 @@ module.exports = {
         primaryKey: true,
       },
       userId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       depositoId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       nome: {
