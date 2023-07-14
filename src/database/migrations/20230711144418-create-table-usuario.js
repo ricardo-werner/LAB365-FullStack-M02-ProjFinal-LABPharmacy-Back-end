@@ -2,8 +2,8 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('usuarios', { 
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('usuarios', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -20,11 +20,16 @@ module.exports = {
       },
       genero: {
         type: Sequelize.STRING,
-        allowNull: true      
+        allowNull: true
       },
       dt_nascimento: {
         type: Sequelize.DATE,
         allowNull: false
+      },
+      pessoa_com_deficiencia: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
       },
       cpf: {
         type: Sequelize.STRING,
@@ -62,10 +67,10 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true
       },
-  })
+    })
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('usuarios');
   }
 };

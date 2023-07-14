@@ -7,6 +7,7 @@ const Usuario = connection.define("usuario", {
   sobrenome: STRING,
   genero: STRING,
   dt_nascimento: DATE,
+  pessoa_com_deficiencia: BOOLEAN,
 
   cpf: {
     type: STRING,
@@ -23,29 +24,13 @@ const Usuario = connection.define("usuario", {
     },
     unique: { msg: "Email já existe" }
   },
-  senha: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      len: {
-        args: [8, 50],
-        msg: "Senha precisa ter entre 8 a 50 char., sendo pelo menos 1 letra maiúscula, 1 minúscula e 1 número e 1 catacter especial"
-      },
-      //is: {
-        //args: "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$",
-        //msg: "Senha muito fraca"
-      //}
-    }
-  },
+  senha: STRING,
   status: {
     type: ENUM,
     values: ['ativo', 'inativo'],
     allowNull: false,
     defaultValue: 'ativo'
   },
-  created_at: DATE,
-  updated_at: DATE,
-  deleted_at: DATE,
-}, { underscore: true, paranoid: true });
+}, { underscore: true, paranoid: true, timestamps: true });
 
 module.exports = { Usuario }
