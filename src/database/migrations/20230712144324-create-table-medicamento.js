@@ -9,11 +9,11 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      userId: {
+      usuario_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      depositoId: {
+      deposito_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
@@ -33,7 +33,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      unidadeDosagem: {
+      unidade_dosagem: {
         type: Sequelize.ENUM('mg', 'mcg', 'g', 'mL', '%', 'Outro'),
         allowNull: false,
       },
@@ -41,8 +41,8 @@ module.exports = {
         type: Sequelize.ENUM('Medicamento Controlado', 'Medicamento Não Controlado'),
         allowNull: false,
       },
-      precoUnitario: {
-        type: Sequelize.INTEGER,
+      preco_unitario: {
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
       quantidade: {

@@ -1,4 +1,4 @@
-const { INTEGER, STRING, TEXT, ENUM, DATE } = require('sequelize');
+const { INTEGER, STRING, TEXT, ENUM, DECIMAL } = require('sequelize');
 const { connection } = require('../database/connection');
 
 const Medicamento = connection.define("medicamento", {
@@ -8,7 +8,7 @@ const Medicamento = connection.define("medicamento", {
     laboratorio: STRING,
     descricao: TEXT,
     dosagem: INTEGER,
-    unidadeDosagem: {
+    unidade_dosagem: {
         type: ENUM('mg', 'mcg', 'g', 'mL', '%', 'Outro'),
         allowNull: false
     },
@@ -16,11 +16,8 @@ const Medicamento = connection.define("medicamento", {
         type: ENUM('Medicamento Controlado', 'Medicamento Não Controlado'),
         allowNull: false
     },
-    precoUnitario: INTEGER,
+    preco_unitario: DECIMAL(10, 2),
     quantidade: INTEGER,
-    created_at: DATE,
-    updated_at: DATE,
-    deleted_at: DATE,
-}, { underscored: true, paranoid: true });
+}, { underscored: true, paranoid: true, timestamps: true });
 
 module.exports = { Medicamento }
