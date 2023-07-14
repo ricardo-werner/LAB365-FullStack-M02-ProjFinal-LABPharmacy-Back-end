@@ -21,7 +21,7 @@ module.exports = {
         },
         allowNull: true
       },
-      distribuidor_nome: {
+      razao_social: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
@@ -31,16 +31,40 @@ module.exports = {
         allowNull: false,
         unique: true
       },
-
+      nome_fantasia: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
       contato: {
         type: Sequelize.STRING,
         allowNull: false
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          isEmail: { msg: "Email Inválido" }
+        },
+        unique: { msg: "Email já existe" }
+      },
+      telefone: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      celular: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       cep: {
         type: Sequelize.STRING,
         allowNull: false
       },
       endereco: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      numero: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -53,10 +77,6 @@ module.exports = {
         allowNull: false
       },
       estado: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      numero: {
         type: Sequelize.STRING,
         allowNull: false
       },

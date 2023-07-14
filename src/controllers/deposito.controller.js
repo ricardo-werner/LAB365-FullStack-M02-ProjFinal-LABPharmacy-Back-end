@@ -5,17 +5,20 @@ class DepositoController {
 
         try {
             const {
-                id,
                 usuario_id,
-                distribuidor_nome,
+                razao_social,
                 cnpj,
+                nome_fantasia,
                 contato,
+                email,
+                telefone,
+                celular,
                 cep,
                 endereco,
+                numero,
                 bairro,
                 cidade,
                 estado,
-                numero,
                 complemento,
                 latitude,
                 longitude,
@@ -23,11 +26,14 @@ class DepositoController {
             } = request.body;
 
             const data = await Deposito.create({
-                id,
                 usuario_id,
-                distribuidor_nome,
+                razao_social,
                 cnpj,
+                nome_fantasia,
                 contato,
+                email,
+                telefone,
+                celular,
                 cep,
                 endereco,
                 bairro,
