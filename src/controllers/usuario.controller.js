@@ -1,21 +1,35 @@
-const { Usuario  } = require('../models/usuario')
+const { Usuario } = require('../models/usuario')
 
-class UsuarioController{
-    async createOneUsuario(request, response){
+class UsuarioController {
+    async createOneUsuario(request, response) {
 
         try {
             const {
-                name,
+                nome,
+                sobrenome,
+                genero,
+                dt_nascimento,
+                have_special_needs,
+                cpf,
+                telefone,
                 email,
-                password
+                senha,
+                status
             } = request.body;
-    
-             const data = await Usuario.create({
-                name,
+
+            const data = await Usuario.create({
+                nome,
+                sobrenome,
+                genero,
+                dt_nascimento,
+                have_special_needs,
+                cpf,
+                telefone,
                 email,
-                password
+                senha,
+                status
             })
-    
+
             return response.status(201).send(data)
         } catch (error) {
             return response.status(400).send(
@@ -26,36 +40,37 @@ class UsuarioController{
             )
         }
 
-        
+
     }
 
     async loginUsuario(request, response) {
-        try {            
+        try {
             const {
                 email,
                 password
             } = request.body;
-    
+
             console.log(request.body)
-            
+
             const usuario = await Usuario.findOne({
-                where:{email:email}
+                where: { email: email }
             })
 
             console.log(usuario)
-    
-            if (usuario.password === password){
+
+            if (usuario.password === password) {
                 console.log("Senha Igual")
-                return response.status(200).send(`palavra_secreta: ${SECRET_KEY}`) 
+                return response.status(200).send(`palavra_secreta: ${SECRET_KEY}`)
             }
             else {
                 console.log("Senha Diferente")
-                return response.status(400).send({"msg": "Senha Invalida"})
+                return response.status(400).send({ "msg": "Senha Invalida" })
             }
         } catch (error) {
             return response.status(401).send({
-                    message: "Tentativa de Login Falhou",
-                    cause: error.message})
+                message: "Tentativa de Login Falhou",
+                cause: error.message
+            })
         }
     }
 }
