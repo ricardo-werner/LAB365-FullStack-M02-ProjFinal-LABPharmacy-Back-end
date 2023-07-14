@@ -1,13 +1,14 @@
 const { INTEGER, STRING, ENUM, DECIMAL } = require('sequelize');
 const { connection } = require('../database/connection');
 
+
 const Medicamento = connection.define("medicamento", {
     usuario_id: INTEGER,
     deposito_id: INTEGER,
     nome_medicamento: STRING,
     nome_laboratorio: STRING,
     descricao_medicamento: STRING,
-    dosagem_medicmaneto: INTEGER,
+    dosagem_medicamento: INTEGER,
     unidade_dosagem: {
         type: ENUM('mg', 'mcg', 'g', 'mL', '%', 'Outro'),
         allowNull: false,
@@ -15,6 +16,7 @@ const Medicamento = connection.define("medicamento", {
     tipo_medicamento: {
         type: ENUM('Medicamento Controlado', 'Medicamento Não Controlado'),
         allowNull: false,
+        defaultValue: 'Medicamento Não Controlado', // Valor padrão para a coluna "tipo"
     },
     preco_unitario: {
         type: DECIMAL(10, 2),

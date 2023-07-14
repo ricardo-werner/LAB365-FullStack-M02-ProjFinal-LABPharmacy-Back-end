@@ -29,7 +29,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      dosagem_medicmaneto: {
+      dosagem_medicamento: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
@@ -40,6 +40,7 @@ module.exports = {
       tipo_medicamento: {
         type: Sequelize.ENUM('Medicamento Controlado', 'Medicamento Não Controlado'),
         allowNull: false,
+        defaultValue: 'Medicamento Não Controlado', // Valor padrão para a coluna "tipo"
       },
       preco_unitario: {
         type: Sequelize.DECIMAL(10, 2),

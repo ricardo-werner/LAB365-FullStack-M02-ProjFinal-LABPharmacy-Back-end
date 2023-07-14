@@ -23,7 +23,7 @@ class MedicamentoController {
                 nome_medicamento,
                 nome_laboratorio,
                 descricao_medicamento,
-                dosagem_medicmaneto,
+                dosagem_medicamento,
                 unidade_dosagem,
                 tipo_medicamento,
                 preco_unitario,
