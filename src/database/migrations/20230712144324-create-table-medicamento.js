@@ -17,19 +17,19 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      nome: {
+      nome_medicamento: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      laboratorio: {
+      nome_laboratorio: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      descricao: {
-        type: Sequelize.TEXT,
-        allowNull: true,
+      descricao_medicamento: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
-      dosagem: {
+      dosagem_medicmaneto: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
@@ -37,7 +37,7 @@ module.exports = {
         type: Sequelize.ENUM('mg', 'mcg', 'g', 'mL', '%', 'Outro'),
         allowNull: false,
       },
-      tipo: {
+      tipo_medicamento: {
         type: Sequelize.ENUM('Medicamento Controlado', 'Medicamento Não Controlado'),
         allowNull: false,
       },

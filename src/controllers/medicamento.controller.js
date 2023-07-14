@@ -7,29 +7,27 @@ class MedicamentoController {
             const {
                 usuario_id,
                 deposito_id,
-                nome,
-                laboratorio,
-                descricao,
-                dosagem,
+                nome_medicamento,
+                nome_laboratorio,
+                descricao_medicamento,
+                dosagem_medicmaneto,
                 unidade_dosagem,
-                tipo,
+                tipo_medicamento,
                 preco_unitario,
-                quantidade,
-
+                quantidade
             } = request.body;
 
             const data = await Medicamento.create({
                 usuario_id,
                 deposito_id,
-                nome,
-                laboratorio,
-                descricao,
-                dosagem,
+                nome_medicamento,
+                nome_laboratorio,
+                descricao_medicamento,
+                dosagem_medicmaneto,
                 unidade_dosagem,
-                tipo,
+                tipo_medicamento,
                 preco_unitario,
-                quantidade,
-
+                quantidade
             })
 
             return response.status(201).send(data)
