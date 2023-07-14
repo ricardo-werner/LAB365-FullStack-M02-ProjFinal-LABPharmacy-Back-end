@@ -1,4 +1,4 @@
-const { STRING, DATE, ENUM, BOOLEAN } = require('sequelize')
+const { STRING, DATE, ENUM } = require('sequelize')
 const { connection } = require('../database/connection')
 
 
@@ -7,13 +7,21 @@ const Usuario = connection.define("usuario", {
   sobrenome: STRING,
   genero: STRING,
   dt_nascimento: DATE,
-  pessoa_com_deficiencia: BOOLEAN,
 
   cpf: {
     type: STRING,
     allowNull: false,
-    unique: true
+    validate: {
+      len: {
+        args: [11],
+        msg: "CPF deve conter 11 números",
+      },
+    },
+    unique: {
+      msg: "CPF já existe",
+    },
   },
+  
   telefone: STRING,
 
   email: {
@@ -24,7 +32,20 @@ const Usuario = connection.define("usuario", {
     },
     unique: { msg: "Email já existe" }
   },
-  senha: STRING,
+  senha: {
+    type: STRING,
+    allowNull: false,
+    validate:{
+      len:{
+        args:[8,20], 
+        msg: "Senha precisa ter no mímino 8 letras, sendo pelo menos 1 letra maiúscula, 1 minúscula e 1 caracter especial."
+      },
+      is: {
+        args: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/,
+        msg: "Senha muito fraca."
+    }
+  }
+},
   status: {
     type: ENUM,
     values: ['ativo', 'inativo'],

@@ -26,11 +26,6 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false
       },
-      pessoa_com_deficiencia: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
-      },
       cpf: {
         type: Sequelize.STRING,
         allowNull: false,
