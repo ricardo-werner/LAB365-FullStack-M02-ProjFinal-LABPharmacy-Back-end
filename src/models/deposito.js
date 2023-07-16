@@ -18,11 +18,25 @@ const Deposito = connection.define("deposito", {
     allowNull: false,
     unique: true
   },
-  cnpj: {
-    type: STRING,
-    allowNull: false,
-    unique: true
+  cnpj: { 
+  type: STRING,
+  allowNull: false,
+  validate: {
+    len: {
+      args: [14],
+      msg: "CNPJ deve conter 14 números",
+    },
+    isNumeric: {
+      msg: "CNPJ deve conter apenas números",
   },
+    notNull: {
+      msg: "CNPJ não se pode deixar vazio",
+    },
+  unique: {
+    msg: { "msg": "CNPJ já existe.", "status": "409" },
+  }
+},
+},
   nome_fantasia: {
     type: STRING,
     allowNull: false,
