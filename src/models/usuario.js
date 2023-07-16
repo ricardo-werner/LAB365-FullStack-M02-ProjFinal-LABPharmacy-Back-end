@@ -16,10 +16,16 @@ const Usuario = connection.define("usuario", {
         args: [11],
         msg: "CPF deve conter 11 números",
       },
+      isNumeric: {
+        msg: "CPF deve conter apenas números",
     },
+      notNull: {
+        msg: "CPF não se pode deixar vazio",
+      },
     unique: {
-      msg: "CPF já existe",
-    },
+      msg: { "msg": "CPF já existe.", "status": "409" },
+    }
+  },
   },
   
   telefone: STRING,
