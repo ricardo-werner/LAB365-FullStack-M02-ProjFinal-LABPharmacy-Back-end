@@ -15,8 +15,7 @@ const Medicamento = connection.define("medicamento", {
     },
     tipo_medicamento: {
         type: ENUM('Medicamento Controlado', 'Medicamento Não Controlado'),
-        allowNull: false,
-        defaultValue: 'Medicamento Não Controlado', // Valor padrão para a coluna "tipo"
+        allowNull: false
     },
     preco_unitario: {
         type: DECIMAL(10, 2),
