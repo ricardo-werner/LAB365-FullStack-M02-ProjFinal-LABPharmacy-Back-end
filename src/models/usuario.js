@@ -22,10 +22,10 @@ const Usuario = connection.define("usuario", {
       notNull: {
         msg: "CPF não se pode deixar vazio",
       },
+    },
     unique: {
       msg: { "msg": "CPF já existe.", "status": "409" },
-    }
-  },
+    },
   },
   
   telefone: STRING,
