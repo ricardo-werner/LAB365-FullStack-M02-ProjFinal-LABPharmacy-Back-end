@@ -8,7 +8,7 @@ const Medicamento = connection.define("medicamento", {
     nome_medicamento: STRING,
     nome_laboratorio: STRING,
     descricao_medicamento: STRING,
-    dosagem_medicamento: INTEGER,
+    dosagem_medicamento: DECIMAL(10, 2),
     unidade_dosagem: {
         type: ENUM('mg', 'mcg', 'g', 'mL', '%', 'Outro'),
         allowNull: false,

@@ -30,7 +30,7 @@ module.exports = {
         allowNull: false,
       },
       dosagem_medicamento: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
       unidade_dosagem: {
