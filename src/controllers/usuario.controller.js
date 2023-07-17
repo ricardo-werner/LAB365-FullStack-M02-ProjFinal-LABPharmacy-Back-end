@@ -3,7 +3,7 @@ const { senha } = require('../models/usuario')
 const { SECRET_KEY_JWT } = require('../config/database.config')
 const { config } = require('dotenv')
 const { sign } = require('jsonwebtoken')
-const { require, response } = require('express')
+const { response } = require('express')
 config()
 class UsuarioController {
     async createOneUsuario(request, response) {
