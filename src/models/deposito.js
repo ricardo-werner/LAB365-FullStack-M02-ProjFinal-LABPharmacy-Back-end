@@ -75,7 +75,10 @@ Deposito.associate = (models) => {
     foreignKey: 'usuario_id',
     as: 'usuario'
   });
-  
+  Deposito.hasMany(models.Medicamento, {
+    foreignKey: 'deposito_id',
+    as: 'medicamentos'
+  });
 }
 
 
