@@ -3,7 +3,7 @@ const { verify } = require('jsonwebtoken')
 config()
 
 
-async function auth(request, response, next){
+async function auth(request, response, next) {
     try {
         console.log("Entramos no Middleware")
         const { authorization } = request.headers
@@ -13,7 +13,8 @@ async function auth(request, response, next){
     } catch (error) {
         return response.status(401).send({
             message: "Autenticação Falhou",
-            cause: error.message})
+            cause: error.message
+        })
     }
 }
 
