@@ -17,6 +17,12 @@ const Medicamento = connection.define("medicamento", {
         type: ENUM('Medicamento Controlado', 'Medicamento Não Controlado'),
         allowNull: false
     },
+    status: {
+        type: Sequelize.ENUM,
+        values: ['ativo', 'inativo'],
+        allowNull: false,
+        defaultValue: 'ativo'
+      },
     preco_unitario: {
         type: DECIMAL(10, 2),
         allowNull: false,
