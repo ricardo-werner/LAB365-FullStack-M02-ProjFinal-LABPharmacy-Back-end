@@ -145,7 +145,7 @@ class UsuarioController {
         }
     }
 
-    async changeOneSenha(request, response) {
+    async updateOneSenha(request, response) {
         try {
             const { id } = request.params
             const {
