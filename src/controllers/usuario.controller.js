@@ -61,7 +61,7 @@ class UsuarioController {
 
             if (usuario.password === password) {
                 const payload = { "email": usuario.email, "password": usuario.password }
-                const token = sign(payload, process.env.SECRET_KEY_JWT, { expiresIn: '1h' })
+                const token = sign(payload, process.env.SECRET_KEY_JWT, { expiresIn: '1d' })
                 console.log(token)
                 console.log("Senha Igual")
                 return response.status(202).send({ "token": token })
