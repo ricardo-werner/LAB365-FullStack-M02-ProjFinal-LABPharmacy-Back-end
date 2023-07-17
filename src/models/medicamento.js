@@ -3,8 +3,28 @@ const { connection } = require('../database/connection');
 
 
 const Medicamento = connection.define("medicamento", {
-    usuario_id: INTEGER,
-    deposito_id: INTEGER,
+    usuario_id: {
+        type: INTEGER,
+        foreignKey: true,
+        allowNull: false,
+        references: {
+            model: {
+                tableName: 'usuarios',
+            },
+            key: 'id'
+        },
+    },
+    deposito_id: {
+        type: INTEGER,
+        foreignKey: true,
+        allowNull: false,
+        references: {
+            model: {
+                tableName: 'depositos',
+            },
+            key: 'id'
+        },
+    },
     nome_medicamento: STRING,
     nome_laboratorio: STRING,
     descricao_medicamento: STRING,
@@ -22,7 +42,7 @@ const Medicamento = connection.define("medicamento", {
         values: ['ativo', 'inativo'],
         allowNull: false,
         defaultValue: 'ativo'
-      },
+    },
     preco_unitario: {
         type: DECIMAL(10, 2),
         allowNull: false,
@@ -32,13 +52,14 @@ const Medicamento = connection.define("medicamento", {
 }, { underscored: true, paranoid: true, timestamps: true });
 
 Medicamento.associate = (models) => {
-    Medicamento.belongsTo(models.Usuario, { 
-        foreignKey: 'usuario_id', 
-        as: 'usuario' });
+    Medicamento.belongsToMany(models.Usuario, {
+        foreignKey: 'usuario_id',
+        allowNull: false,
+    });
 
-    Medicamento.belongsTo(models.Deposito, {
+    Medicamento.hasMany(models.Deposito, {
         foreignKey: 'deposito_id',
-        as: 'deposito'
+        allowNull: false,
     });
 }
 

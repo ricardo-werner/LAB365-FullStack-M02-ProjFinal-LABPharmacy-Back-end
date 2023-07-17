@@ -5,6 +5,7 @@ const Deposito = connection.define("deposito", {
   usuario_id: {
     type: INTEGER,
     allowNull: false,
+    foreignKey: true,
     references: {
       model: {
         tableName: 'usuarios',
@@ -71,7 +72,7 @@ const Deposito = connection.define("deposito", {
 }, { underscored: true, paranoid: true, timestamps: true })
 
 Deposito.associate = (models) => {
-  Deposito.belongsTo(models.Usuario, {
+  Deposito.hasMany(models.Usuario, {
     foreignKey: 'usuario_id',
     as: 'usuario'
   });

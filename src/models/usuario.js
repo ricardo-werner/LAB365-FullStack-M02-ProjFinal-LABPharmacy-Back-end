@@ -18,7 +18,7 @@ const Usuario = connection.define("usuario", {
       },
       isNumeric: {
         msg: "CPF deve conter apenas números",
-    },
+      },
       notNull: {
         msg: "CPF não se pode deixar vazio",
       },
@@ -27,7 +27,7 @@ const Usuario = connection.define("usuario", {
       msg: { "msg": "CPF já existe.", "status": "409" },
     },
   },
-  
+
   telefone: STRING,
 
   email: {
@@ -41,17 +41,17 @@ const Usuario = connection.define("usuario", {
   senha: {
     type: STRING,
     allowNull: false,
-    validate:{
-      len:{
-        args:[8,20], 
+    validate: {
+      len: {
+        args: [8, 20],
         msg: "Senha precisa ter no mímino 8 letras, sendo pelo menos 1 letra maiúscula, 1 minúscula e 1 caracter especial."
       },
       is: {
         args: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/,
         msg: "Senha muito fraca."
+      }
     }
-  }
-},
+  },
   status: {
     type: ENUM,
     values: ['ativo', 'inativo'],
@@ -61,19 +61,15 @@ const Usuario = connection.define("usuario", {
 }, { underscore: true, paranoid: true, timestamps: true });
 
 Usuario.associate = (models) => {
-  Usuarios.hasMany(models.Medicamentos, {
-    foreignKey: {
-      name: 'usuario_id',
-      allowNull: false
-    },
+  Usuario.hasMany(models.Medicamentos, {
+    foreignKey: "usuario_id",
+    allowNull: false,
   });
 
   Usuario.hasMany(models.Depositos, {
-    foreignKey: {
-      name: 'usuario_id',
-      allowNull: false
-      },
-    });
-  };
+    foreignKey: "usuario_id",
+    allowNull: false,
+  });
+};
 
 module.exports = { Usuario }
