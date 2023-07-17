@@ -18,7 +18,7 @@ const Medicamento = connection.define("medicamento", {
         allowNull: false
     },
     status: {
-        type: Sequelize.ENUM,
+        type: ENUM,
         values: ['ativo', 'inativo'],
         allowNull: false,
         defaultValue: 'ativo'

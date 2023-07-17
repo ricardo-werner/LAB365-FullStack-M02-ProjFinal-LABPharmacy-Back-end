@@ -82,6 +82,7 @@ class MedicamentoController {
                 dosagem_medicamento,
                 unidade_dosagem,
                 tipo_medicamento,
+                status,
                 preco_unitario,
                 quantidade
             } = request.body;
@@ -95,6 +96,7 @@ class MedicamentoController {
                 dosagem_medicamento,
                 unidade_dosagem,
                 tipo_medicamento,
+                status,
                 preco_unitario,
                 quantidade
             }, {
