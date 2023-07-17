@@ -1,5 +1,8 @@
 const { Usuario } = require('../models/usuario')
-
+const { SECRET_KEY_JWT } = require('../config/database.config')
+const { config } = require('dotenv')
+const { sign } = require('jsonwebtoken')
+config()
 class UsuarioController {
     async createOneUsuario(request, response) {
 
@@ -57,8 +60,11 @@ class UsuarioController {
             console.log(usuario)
 
             if (usuario.password === password) {
+                const payload = { "email": usuario.email, "password": usuario.password }
+                const token = sign(payload, process.env.SECRET_KEY_JWT, { expiresIn: '1h' })
+                console.log(token)
                 console.log("Senha Igual")
-                return response.status(200).send(`palavra_secreta: ${SECRET_KEY}`)
+                return response.status(202).send({ "token": token })
             }
             else {
                 console.log("Senha Diferente")
