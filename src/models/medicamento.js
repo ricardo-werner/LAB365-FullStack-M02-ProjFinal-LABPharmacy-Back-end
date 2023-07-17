@@ -31,4 +31,15 @@ const Medicamento = connection.define("medicamento", {
 
 }, { underscored: true, paranoid: true, timestamps: true });
 
+Medicamento.associate = (models) => {
+    Medicamento.belongsTo(models.Usuario, { 
+        foreignKey: 'usuario_id', 
+        as: 'usuario' });
+
+    Medicamento.belongsTo(models.Deposito, {
+        foreignKey: 'deposito_id',
+        as: 'deposito'
+    });
+}
+
 module.exports = { Medicamento }

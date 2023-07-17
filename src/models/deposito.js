@@ -70,4 +70,13 @@ const Deposito = connection.define("deposito", {
   },
 }, { underscored: true, paranoid: true, timestamps: true })
 
+Deposito.associate = (models) => {
+  Deposito.belongsTo(models.Usuario, {
+    foreignKey: 'usuario_id',
+    as: 'usuario'
+  });
+  
+}
+
+
 module.exports = { Deposito }

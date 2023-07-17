@@ -60,4 +60,20 @@ const Usuario = connection.define("usuario", {
   },
 }, { underscore: true, paranoid: true, timestamps: true });
 
+Usuario.associate = (models) => {
+  Usuarios.hasMany(models.Medicamentos, {
+    foreignKey: {
+      name: 'usuario_id',
+      allowNull: false
+    },
+  });
+
+  Usuario.hasMany(models.Depositos, {
+    foreignKey: {
+      name: 'usuario_id',
+      allowNull: false
+      },
+    });
+  };
+
 module.exports = { Usuario }
