@@ -10,7 +10,7 @@ module.exports = {
     password: process.env.PASSWORDDB, //Qual a senha do seu usuário no postgres;
     database: process.env.DATABASE, //Qual o nome do seu database no postgres;
     port: process.env.PORT, //Qual porta do seu postgres (Normalmente é a 5432);
-    secret_key: process.env.SECRET_KEY, //Chave secreta para gerar tokens;
+    secret_key: process.env.SECRET_KEY_JWT, //Chave secreta para gerar tokens;
     define: {
         underscored: true,
         underscoredAll: true,
