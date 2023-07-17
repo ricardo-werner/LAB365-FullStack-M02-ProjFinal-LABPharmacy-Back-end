@@ -1,7 +1,9 @@
 const { Usuario } = require('../models/usuario')
+const { senha } = require('../models/usuario')
 const { SECRET_KEY_JWT } = require('../config/database.config')
 const { config } = require('dotenv')
 const { sign } = require('jsonwebtoken')
+const { require, response } = require('express')
 config()
 class UsuarioController {
     async createOneUsuario(request, response) {
@@ -48,7 +50,7 @@ class UsuarioController {
         try {
             const {
                 email,
-                password
+                senha
             } = request.body;
 
             console.log(request.body)
@@ -59,8 +61,8 @@ class UsuarioController {
 
             console.log(usuario)
 
-            if (usuario.password === password) {
-                const payload = { "email": usuario.email, "password": usuario.password }
+            if (usuario.senha === senha) {
+                const payload = { "email": usuario.email, "senha": usuario.senha }
                 const token = sign(payload, process.env.SECRET_KEY_JWT, { expiresIn: '1d' })
                 console.log(token)
                 console.log("Senha Igual")
@@ -143,6 +145,28 @@ class UsuarioController {
         }
     }
 
+    async changeOneSenha(request, response) {
+        try {
+            const { id } = request.params
+            const {
+                senha
+            } = request.body;
+
+            const data = await Senha.update({
+                senha
+            }, {
+                where: { id: id, senha: senha }
+            })
+
+            return response.status(200).send(data)
+        } catch (error) {
+            return response.status(400).send({
+                message: "Falha na operação de atualizar senha",
+                cause: error.message
+            })
+        }
+    }
+    // Definir o endpoint para deletar usuário (deleção física)
     // async deleteOneUsuario(request, response) {
     //     try {
     //         const { id } = request.params
@@ -159,31 +183,34 @@ class UsuarioController {
     // }
 
     // Definir o endpoint para atualizar o status de um usuário (deleção lógica)
-    async deleteOneUsuario(req, res) {
-        const { id } = req.params;
+    async deleteOneUsuario(require, response) {
+        const { id } = require.params;
 
         // Buscar o usuário pelo identificador
         const user = await Usuario.findByPk(id);
         if (!user) {
-            return res.status(404).json({ error: 'Usuário não encontrado' });
+            return response.status(404).json({ error: 'Usuário não encontrado' });
         }
 
-        // Atualizar o campo de status e delete_at
+        // Atualizar o campo de status e deleteAt
         if (user.status === 'ativo') {
             user.status = 'inativo';
-            user.deleted_at = new Date();
-            console.log(user.deleted_at)
+            user.deletedAt = new Date();
+            console.log(user.deletedAt)
         } else if (user.status === 'inativo') {
             user.status = 'ativo';
-            user.deleted_at = null;
+            user.deletedAt = null;
         }
 
         // Salvar a alteração no banco de dados
         await user.save();
 
-        return res.status(200).json(user);
+        return response.status(200).json(user);
     } catch(error) {
-        return res.status(400).json({ error: error.message });
+        return response.status(400).json({
+            message: 'Falha na operação de deletar usuário',
+            cause: error.message
+        });
     }
 }
 
