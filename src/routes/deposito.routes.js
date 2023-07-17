@@ -1,10 +1,21 @@
-const { createOneDeposito } = require('../controllers/deposito.controller')
+const {
+    createOneDeposito,
+    listAllDepositos,
+    listOneDeposito,
+    updateOneDeposito,
+    deleteOneDeposito
+} = require('../controllers/deposito.controller')
 const { Router } = require('express')
+const { auth } = require('../middleware/auth')
 
-class DepositoRouter{
-    routesFromDeposito () {
-        const depositoRoutes  = Router()
-        depositoRoutes.post('/createOneDeposito', createOneDeposito)
+class DepositoRouter {
+    routesFromDeposito() {
+        const depositoRoutes = Router()
+        depositoRoutes.post('/createOneDeposito', auth, createOneDeposito)
+        depositoRoutes.get('/listAllDepositos', auth, listAllDepositos)
+        depositoRoutes.get('/listOneDeposito/:id', auth, listOneDeposito)
+        depositoRoutes.patch('/updateOneDeposito/:id', auth, updateOneDeposito)
+        depositoRoutes.delete('/deleteOneDeposito/:id', auth, deleteOneDeposito)
         return depositoRoutes
     }
 }
