@@ -51,16 +51,16 @@ const Medicamento = connection.define("medicamento", {
 
 }, { underscored: true, paranoid: true, timestamps: true });
 
-Medicamento.associate = (models) => {
-    Medicamento.belongsToMany(models.Usuario, {
-        foreignKey: 'usuario_id',
-        allowNull: false,
-    });
+// Medicamento.associate = (models) => {
+//     Medicamento.belongsToMany(models.Usuario, {
+//         foreignKey: 'usuario_id',
+//         allowNull: false,
+//     });
 
-    Medicamento.hasMany(models.Deposito, {
-        foreignKey: 'deposito_id',
-        allowNull: false,
-    });
-}
+//     Medicamento.hasMany(models.Deposito, {
+//         foreignKey: 'deposito_id',
+//         allowNull: false,
+//     });
+// }
 
 module.exports = { Medicamento }

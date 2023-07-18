@@ -5,23 +5,11 @@ const Deposito = connection.define("deposito", {
   usuario_id: {
     type: INTEGER,
     allowNull: false,
-    foreignKey: true,
-    references: {
-      model: {
-        tableName: 'usuarios',
-      },
-      key: 'id'
-    },
+    foreignKey: true
   },
   medicamento_id: {
     type: INTEGER,
-    allowNull: false,
-    references: {
-      model: {
-        tableName: 'medicamentos',
-      },
-      key: 'id'
-    },
+    allowNull: false
   },
   razao_social: {
     type: STRING,

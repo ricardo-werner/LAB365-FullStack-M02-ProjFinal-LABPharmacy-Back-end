@@ -13,22 +13,6 @@ module.exports = {
       usuario_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: {
-            tableName: 'usuarios',
-          },
-          key: 'id'
-        },
-      },
-      medicamento_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            tableName: 'medicamentos',
-          },
-          key: 'id'
-        },
       },
       razao_social: {
         type: Sequelize.STRING,

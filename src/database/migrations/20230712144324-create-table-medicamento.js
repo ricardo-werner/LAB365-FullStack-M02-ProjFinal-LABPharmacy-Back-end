@@ -11,23 +11,11 @@ module.exports = {
       },
       usuario_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            tableName: 'usuarios',
-          },
-          key: 'id'
-        },
+        allowNull: false
       },
       deposito_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            tableName: 'depositos',
-          },
-          key: 'id'
-        },
+        allowNull: false
       },
       nome_medicamento: {
         type: Sequelize.STRING,
