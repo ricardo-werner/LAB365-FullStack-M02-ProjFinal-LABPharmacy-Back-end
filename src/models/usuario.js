@@ -14,6 +14,8 @@ const Usuario = connection.define("usuario", {
     validate: {
       len: {
         args: [11],
+        is: /^\d{11}$/,
+        is: /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/,
         msg: "CPF deve conter 11 números",
       },
       isNumeric: {
