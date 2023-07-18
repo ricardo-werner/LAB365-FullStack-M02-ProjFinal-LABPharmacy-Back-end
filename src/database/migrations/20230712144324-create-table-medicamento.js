@@ -12,10 +12,22 @@ module.exports = {
       usuario_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: {
+            tableName: 'usuarios',
+          },
+          key: 'id'
+        },
       },
       deposito_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: {
+            tableName: 'depositos',
+          },
+          key: 'id'
+        },
       },
       nome_medicamento: {
         type: Sequelize.STRING,

@@ -19,7 +19,16 @@ module.exports = {
           },
           key: 'id'
         },
-        allowNull: true
+      },
+      medicamento_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'medicamentos',
+          },
+          key: 'id'
+        },
       },
       razao_social: {
         type: Sequelize.STRING,

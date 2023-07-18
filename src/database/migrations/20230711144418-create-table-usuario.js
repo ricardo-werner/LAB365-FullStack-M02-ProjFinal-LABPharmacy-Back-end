@@ -10,6 +10,24 @@ module.exports = {
         autoIncrement: true,
         allowNull: false
       },
+      deposito_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'depositos',
+          key: 'id'
+        },
+        allowNull: true
+      },
+      medicamento_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'medicamentos',
+          key: 'id'
+        },
+        allowNull: true
+      },
       nome: {
         type: Sequelize.STRING,
         allowNull: false

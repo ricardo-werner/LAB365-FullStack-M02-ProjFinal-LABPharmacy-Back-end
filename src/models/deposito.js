@@ -12,7 +12,16 @@ const Deposito = connection.define("deposito", {
       },
       key: 'id'
     },
-    allowNull: true
+  },
+  medicamento_id: {
+    type: INTEGER,
+    allowNull: false,
+    references: {
+      model: {
+        tableName: 'medicamentos',
+      },
+      key: 'id'
+    },
   },
   razao_social: {
     type: STRING,
