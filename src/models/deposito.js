@@ -10,8 +10,13 @@ const Deposito = connection.define("deposito", {
   razao_social: {
     type: STRING,
     allowNull: false,
-    unique: true
+    unique: true,
+    validate: {
+      notNull: {
+        msg: "Razão Social não se pode deixar vazio",
+      },
   },
+},
   cnpj: {
     type: STRING,
     allowNull: false,
@@ -34,46 +39,141 @@ const Deposito = connection.define("deposito", {
   nome_fantasia: {
     type: STRING,
     allowNull: false,
-    unique: true
+    validate: {
+      notNull: {
+        msg: "Nome Fantasia não se pode deixar vazio",
+      },
   },
-  contato: STRING,
+},
+  contato: {
+    type: STRING,
+    allowNull: true,
+  },
   email: {
     type: STRING,
     allowNull: false,
     validate: {
+      notNull: {
+        msg: "Email não se pode deixar vazio",
+      },
       isEmail: { msg: "Email Inválido" }
     },
-    unique: { msg: "Email já existe" }
+    unique: {
+      message: {
+        "msg": "Email já existe.", "status": "409"
+      },
+    }
   },
-  telefone: STRING,
-  celular: STRING,
-  cep: STRING,
-  endereco: STRING,
-  numero: STRING,
-  bairro: STRING,
-  cidade: STRING,
-  estado: STRING,
-  complemento: STRING,
-  latitude: STRING,
-  longitude: STRING,
+  telefone: {
+    type: STRING,
+    allowNull: true,
+  },
+  celular: {
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: "Celular não se pode deixar vazio",
+      },
+  },
+},
+  cep: {
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: "CEP não se pode deixar vazio",
+      },
+  },
+},
+  endereco: { 
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: "Endereço não se pode deixar vazio",
+      },
+  },
+},
+  numero: { 
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: "Número não se pode deixar vazio",
+      },
+  },
+},
+  bairro: { 
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: "Bairro não se pode deixar vazio",
+      },
+  },
+},
+  cidade: { 
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: "Cidade não se pode deixar vazio",
+      },
+  },
+},
+
+  estado: { 
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: "Estado não se pode deixar vazio",
+      },
+  },
+},
+  complemento: {
+    type: STRING,
+    allowNull: true,
+  },
+  latitude: {
+    type: STRING,
+    allowNull: true,
+  },
+  longitude: {
+    type: STRING,
+    allowNull: true,
+  },
   status: {
     type: ENUM,
     values: ['ativo', 'inativo'],
     allowNull: false,
-    defaultValue: 'ativo'
-  },
-}, { underscored: true, paranoid: true, timestamps: true })
+    defaultValue: 'ativo',
+    validate: {
+      notNull: {
+        msg: "Status não se pode deixar vazio",
+      },
+    },
+},
+}, {
+  underscored: true,
+  paranoid: true,
+  timestamps: true
+});
+ 
 
-Deposito.associate = (models) => {
-  Deposito.hasMany(models.Usuario, {
-    foreignKey: 'usuario_id',
-    as: 'usuario'
-  });
-  Deposito.hasMany(models.Medicamento, {
-    foreignKey: 'deposito_id',
-    as: 'medicamentos'
-  });
-}
+
+
+// Deposito.associate = (models) => {
+//   Deposito.hasMany(models.Usuario, {
+//     foreignKey: 'usuario_id',
+//     as: 'usuario'
+//   });
+//   Deposito.hasMany(models.Medicamento, {
+//     foreignKey: 'deposito_id',
+//     as: 'medicamentos'
+//   });
+// }
 
 
 module.exports = { Deposito }

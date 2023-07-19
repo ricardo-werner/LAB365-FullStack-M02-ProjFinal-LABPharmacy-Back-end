@@ -1,19 +1,52 @@
 const { Sequelize } = require('sequelize')
 const { STRING, DATE, ENUM } = require('sequelize')
-const { OP } = require('sequelize')
 const { connection } = require('../database/connection')
 
 
 const Usuario = connection.define("usuario", {
-  nome: STRING,
-  sobrenome: STRING,
-  genero: STRING,
-  dt_nascimento: DATE,
-
+  nome: {
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: "Nome não se pode deixar vazio",
+      },
+    },
+  },
+  sobrenome: {
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: "Sobrenome não se pode deixar vazio",
+      },
+    },
+  },
+  genero: {
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: "Gênero não se pode deixar vazio",
+      },
+    },
+  },
+  dt_nascimento: {
+    type: DATE,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: "Data de Nascimento não se pode deixar vazio",
+      },
+    },
+  },
   cpf: {
     type: STRING,
     allowNull: false,
     validate: {
+      notNull: {
+        msg: "CPF não se pode deixar vazio",
+      },
       len: {
         args: [11],
         is: /^\d{11}$/,
@@ -22,9 +55,6 @@ const Usuario = connection.define("usuario", {
       },
       isNumeric: {
         msg: "CPF deve conter apenas números",
-      },
-      notNull: {
-        msg: "CPF não se pode deixar vazio",
       },
     },
     unique: true
@@ -58,9 +88,18 @@ const Usuario = connection.define("usuario", {
     type: ENUM,
     values: ['ativo', 'inativo'],
     allowNull: false,
-    defaultValue: 'ativo'
-  },
-}, { underscore: true, paranoid: true, timestamps: true });
+    defaultValue: 'ativo',
+    validate: {
+      notNull: {
+        msg: "Status não se pode deixar vazio",
+      },
+    },
+  }, 
+}, {
+  underscored: true,
+  paranoid: true,
+  timestamps: true
+})
 
 // Usuario.associate = (models) => {
 //   Usuario.hasMany(models.Medicamentos, {
