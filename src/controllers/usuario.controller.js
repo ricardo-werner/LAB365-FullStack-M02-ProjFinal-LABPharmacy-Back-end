@@ -129,8 +129,8 @@ class UsuarioController {
 
             if (!usuario) {
                 return response.status(404).send({
-                    message: "Usuário não encontrado",
-                    cause: "Falha na operação de listar usuário"
+                    message: "Falha na operação de listar usuário",
+                    cause: "Usuário não encontrado"
                 });
             }
 
