@@ -39,7 +39,7 @@ module.exports = {
         validate: {
           isEmail: { msg: "Email Inválido" }
         },
-        unique: { msg: "Email já existe" }
+        unique: true
       },
       telefone: {
         type: Sequelize.STRING,
