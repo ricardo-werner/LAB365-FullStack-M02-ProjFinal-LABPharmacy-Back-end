@@ -7,10 +7,6 @@ const Deposito = connection.define("deposito", {
     allowNull: false,
     foreignKey: true
   },
-  medicamento_id: {
-    type: INTEGER,
-    allowNull: false
-  },
   razao_social: {
     type: STRING,
     allowNull: false,
