@@ -1,4 +1,6 @@
+const { Sequelize } = require('sequelize')
 const { STRING, DATE, ENUM } = require('sequelize')
+const { OP } = require('sequelize')
 const { connection } = require('../database/connection')
 
 
@@ -25,9 +27,7 @@ const Usuario = connection.define("usuario", {
         msg: "CPF não se pode deixar vazio",
       },
     },
-    unique: {
-      msg: { "msg": "CPF já existe.", "status": "409" },
-    },
+    unique: true
   },
 
   telefone: STRING,

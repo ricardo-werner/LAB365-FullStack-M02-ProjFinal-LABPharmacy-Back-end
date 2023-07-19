@@ -1,5 +1,5 @@
-const { Usuario } = require('../models/Usuario')
-const { senha } = require('../models/Usuario')
+const { Usuario } = require('../models/usuario')
+const { senha } = require('../models/usuario')
 const { SECRET_KEY_JWT } = require('../config/database.config')
 const { config } = require('dotenv')
 const { sign } = require('jsonwebtoken')
@@ -7,7 +7,6 @@ const { response } = require('express')
 config()
 class UsuarioController {
     async createOneUsuario(request, response) {
-
         try {
             const {
                 nome,
@@ -21,17 +20,19 @@ class UsuarioController {
                 status
             } = request.body;
 
+            console.log(request.body);
+
             const existeUsuario = await Usuario.findOne({
                 where: { cpf: cpf }
-            })
+            });
             if (existeUsuario) {
                 return response.status(409).send({
                     message: "Falha na operação ao criar usuário",
                     cause: "CPF já existe"
-                })
+                });
             }
 
-            const Usuario = await Usuario.create({
+            const novoUsuario = await Usuario.create({
                 nome,
                 sobrenome,
                 genero,
@@ -41,29 +42,28 @@ class UsuarioController {
                 email,
                 senha,
                 status
-            })
+            });
 
             return response.status(201).send({
-                identificador: Usuario.id,
-                nome: Usuario.nome,
-                sobrenome: Usuario.sobrenome,
-                genero: Usuario.genero,
-                dt_nascimento: Usuario.dt_nascimento,
-                cpf: Usuario.cpf,
-                telefone: Usuario.telefone,
-                email: Usuario.email,
-                senha: Usuario.senha,
-                status: Usuario.status
-            })
+                identificador: novoUsuario.id,
+                nome: novoUsuario.nome,
+                sobrenome: novoUsuario.sobrenome,
+                genero: novoUsuario.genero,
+                dt_nascimento: novoUsuario.dt_nascimento,
+                cpf: novoUsuario.cpf,
+                telefone: novoUsuario.telefone,
+                email: novoUsuario.email,
+                senha: novoUsuario.senha,
+                status: novoUsuario.status
+            });
         } catch (error) {
-            return response.status(400).send(
-                {
-                    message: "Falha na operação de criar usuário",
-                    cause: "Usuário não criado"
-                }
-            )
+            return response.status(400).send({
+                message: "Falha na operação de criar usuário",
+                cause: "Usuário não criado"
+            });
         }
     }
+
 
     async loginUsuario(request, response) {
         try {
@@ -74,42 +74,44 @@ class UsuarioController {
 
             //console.log(request.body)
 
-            const Usuario = await Usuario.findOne({
-                where: { email: email }
+            const usuario = await Usuario.findOne({
+                where: { email: email, senha: senha }
             })
 
-            if (!Usuario) {
+            if (!usuario) {
                 return response.status(404).send({
                     message: "Tentativa de Login Falhou",
                     cause: "E-mail não encontrado"
-                })
+                });
             }
 
-            //console.log(Usuario)
+            if (usuario.senha !== senha) {
+                return response.status(400).send({
+                    message: "Tentativa de Login Falhou",
+                    cause: "Senha inválido"
+                });
+            }
 
-            if (Usuario.senha === senha) {
-                const payload = { "email": Usuario.email, "senha": Usuario.senha }
-                const token = sign(payload, process.env.SECRET_KEY_JWT, { expiresIn: '1d' })
-                console.log(token)
-                console.log("Senha Igual")
-                return response.status(201).send({ "token": token })
-            }
-            else {
-                console.log("Senha Diferente")
-                return response.status(400).send({ "msg": "Senha Invalida" })
-            }
+            console.log(usuario)
+
+            const payload = { "email": usuario.email, "senha": usuario.senha }
+            const token = sign(payload, process.env.SECRET_KEY_JWT, { expiresIn: '1d' })
+            console.log(token)
+            console.log("Senha Igual")
+            return response.status(200).send({ "token": token })
+
         } catch (error) {
-            return response.status(404).send({
-                message: "Tentativa de Login Falhou",
-                cause: "E-mail não encontrado"
+            return response.status(500).send({
+                message: "Falha na tentativa de Login",
+                cause: "Erro interno do servidor"
             })
         }
     }
 
     async listAllUsuarios(request, response) {
         try {
-            const Usuario = await Usuario.findAll()
-            return response.status(200).send(Usuario)
+            const usuario = await Usuario.findAll()
+            return response.status(200).send(usuario)
         } catch (error) {
             return response.status(400).send({
                 message: "Falha na operação de listar usuários",
@@ -121,24 +123,23 @@ class UsuarioController {
     async listOneUsuario(request, response) {
         try {
             const { id } = request.params;
-            const Usuario = await Usuario.findByPk({
-                where: { id: id },
+            const usuario = await Usuario.findByPk(id, {
                 attributes: { exclude: ['senha'] }
-            })
+            });
 
-            if (!Usuario) {
+            if (!usuario) {
                 return response.status(404).send({
-                    message: "Falha na operação de listar usuário",
-                    cause: "Usuário não encontrado"
-                })
+                    message: "Usuário não encontrado",
+                    cause: "Falha na operação de listar usuário"
+                });
             }
 
-            return response.status(200).send(Usuario)
+            return response.status(200).send(usuario);
         } catch (error) {
             return response.status(400).send({
-                message: "Falha na operação de listar usuário",
-                cause: "Usuário não encontrado"
-            })
+                message: "Erro ao listar usuário",
+                cause: error.message
+            });
         }
     }
 
@@ -149,40 +150,55 @@ class UsuarioController {
                 nome,
                 sobrenome,
                 genero,
-                dt_nascimento,
-                cpf,
-                telefone,
-                email,
-                senha,
-                status
+                telefone
             } = request.body;
 
-            const Usuario = await Usuario.findByPk(id)
+            const usuario = await Usuario.findByPk(id);
 
-            if (!Usuario) {
+            if (!usuario) {
                 return response.status(404).send({
                     message: "Falha na operação de atualizar usuário",
                     cause: "Usuário não encontrado"
-                })
+                });
             }
 
-            Usuario.nome = nome,
-                Usuario.sobrenome = sobrenome,
-                Usuario.genero = genero,
-                Usuario.dt_nascimento = dt_nascimento,
-                Usuario.cpf = cpf,
-                Usuario.telefone = telefone,
-                Usuario.email = email,
-                Usuario.senha = senha
+            // Verifica se pelo menos um campo está presente na requisição para permitir a atualização
+            if (!nome && !sobrenome && !genero && !telefone) {
+                return response.status(400).send({
+                    message: "Falha na operação de atualizar usuário",
+                    cause: "Nenhum campo para atualizar foi fornecido"
+                });
+            }
 
-            return response.status(202).send(Usuario)
+            // Atualiza apenas os campos fornecidos na requisição
+            if (nome !== undefined) {
+                usuario.nome = nome;
+            }
+            if (sobrenome !== undefined) {
+                usuario.sobrenome = sobrenome;
+            }
+            if (genero !== undefined) {
+                usuario.genero = genero;
+            }
+            if (telefone !== undefined) {
+                usuario.telefone = telefone;
+            }
+
+            // Salva as alterações no banco de dados
+            await usuario.save();
+
+            return response.status(202).send(
+                { message: "Usuário atualizado com sucesso" }
+            );
+
         } catch (error) {
-            return response.status(400).send({
-                message: "Falha na operação de atualizar usuário",
-                cause: "Usuário não encontrado"
-            })
+            return response.status(401).send({
+                message: "Falha ao atualizar no banco de dados",
+                cause: error.message // Retorna a mensagem de erro específica
+            });
         }
     }
+
 
     async updateOneStatus(request, response) {
         try {
@@ -191,27 +207,25 @@ class UsuarioController {
                 status
             } = request.body;
 
-            if (!Usuario) {
+            if (!usuario) {
                 return response.status(404).send({
                     message: "Falha na operação de atualizar status",
                     cause: "Usuário não encontrado"
                 })
             }
 
-            if (status != 'Ativo' && status != 'Inativo') {
+            if (status != 'ativo' && status != 'inativo') {
                 return response.status(404).send({
                     message: "Falha na operação de atualizar status",
-                    cause: "Status inválido"
+                    cause: "Status não encontrado"
                 })
             }
 
-            const Usuario = await Usuario.update({
+            const usuario = await Usuario.update(id, {
                 status
-            }, {
-                where: { id: id }
             })
 
-            return response.status(200).send(Usuario)
+            return response.status(200).send(usuario)
         } catch (error) {
             return response.status(400).send({
                 message: "Falha na operação de atualizar status",
@@ -227,20 +241,20 @@ class UsuarioController {
                 senha
             } = request.body;
 
-            if (!Usuario) {
+            if (!usuario) {
                 return response.status(404).send({
                     message: "Falha na operação de atualizar status",
                     cause: "Usuário não encontrado"
                 })
             }
 
-            const Usuario = await senha.update({
+            const usuario = await senha.update({
                 senha
             }, {
                 where: { id: id, senha: senha }
             })
 
-            return response.status(200).send(Usuario)
+            return response.status(200).send(usuario)
         } catch (error) {
             return response.status(400).send({
                 message: "Falha na operação de atualizar senha",
@@ -253,10 +267,10 @@ class UsuarioController {
     // async deleteOneUsuario(request, response) {
     //     try {
     //         const { id } = request.params
-    //         const Usuario = await Usuario.destroy({
+    //         const usuario = await usuario.destroy({
     //             where: { id: id }
     //         })
-    //         return response.status(200).send(Usuario)
+    //         return response.status(200).send(usuario)
     //     } catch (error) {
     //         return response.status(400).send({
     //             message: "Falha na operação de deletar usuário",
@@ -269,7 +283,7 @@ class UsuarioController {
     async deleteOneUsuario(require, response) {
         const { id } = require.params;
 
-        const user = await Usuario.findByPk(id);
+        const user = await usuario.findByPk(id);
         if (!user) {
             return response.status(404).json({ error: 'Usuário não encontrado' });
         }
