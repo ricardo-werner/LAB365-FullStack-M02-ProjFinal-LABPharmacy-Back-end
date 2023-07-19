@@ -75,7 +75,7 @@ class UsuarioController {
             //console.log(request.body)
 
             const usuario = await Usuario.findOne({
-                where: { email: email, senha: senha }
+                where: { email: email }
             })
 
             if (!usuario) {
@@ -88,7 +88,7 @@ class UsuarioController {
             if (usuario.senha !== senha) {
                 return response.status(400).send({
                     message: "Tentativa de Login Falhou",
-                    cause: "Senha inválido"
+                    cause: "Senha inválida"
                 });
             }
 
@@ -283,23 +283,21 @@ class UsuarioController {
     async deleteOneUsuario(require, response) {
         const { id } = require.params;
 
-        const user = await usuario.findByPk(id);
-        if (!user) {
+        const usuario = await Usuario.findByPk(id, { paranoid: false });
+        if (!usuario) {
             return response.status(404).json({ error: 'Usuário não encontrado' });
         }
 
-        if (user.status === 'ativo') {
-            user.status = 'inativo';
-            user.deletedAt = new Date();
-            console.log(user.deletedAt)
-        } else if (user.status === 'inativo') {
-            user.status = 'ativo';
-            user.deletedAt = null;
+        if (usuario.status === 'ativo') {
+            usuario.status = 'inativo';
+            await usuario.destroy(); // Realiza o Soft Delete
+        } else if (usuario.status === 'inativo') {
+            usuario.status = 'ativo';
+            usuario.deleted_at = null;
+            await usuario.save();
         }
 
-
-        await user.save();
-        return response.status(200).json(user);
+        return response.status(200).json(usuario);
 
     } catch(error) {
         return response.status(400).json({
