@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
-      usuarioid: {
+      usuarioId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -17,7 +17,7 @@ module.exports = {
           key: 'id'
         }
       },
-      depositoid: {
+      depositoId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -25,29 +25,29 @@ module.exports = {
           key: 'id'
         }
       },
-      nomemedicamento: {
+      medicamentoNome: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      nomelaboratorio: {
+      laboratorioNome: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      descricaomedicamento: {
+      medicamentoDescricao: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      medicamentodosagem: {
+      medicamentoDosagem: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
-      unidadedosagem: {
+      unidadeDosagem: {
         type: Sequelize.ENUM,
         values: ['mg', 'mcg', 'g', 'mL', '%', 'Outro'],
         allowNull: false,
         defaultValue: 'mg'
       },
-      tipomedicamento: {
+      medicamentoTipo: {
         type: Sequelize.ENUM,
         values: ['Medicamento Controlado', 'Medicamento Não Controlado'],
         allowNull: false,
@@ -59,7 +59,7 @@ module.exports = {
         allowNull: false,
         defaultValue: 'disponivel'
       },
-      precounitario: {
+      precoUnitario: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
@@ -78,7 +78,8 @@ module.exports = {
       },
     });
   },
-
+  
+  
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('medicamentos');
     return Promise.all([

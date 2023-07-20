@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      datanascimento: {
+      dataNascimento: {
         type: Sequelize.DATE,
         allowNull: false,
       },

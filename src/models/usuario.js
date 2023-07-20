@@ -30,7 +30,7 @@ const Usuario = connection.define("usuario", {
       },
     },
   },
-  datanascimento: {
+  dataNascimento: {
     type: DATE,
     allowNull: false,
     validate: {

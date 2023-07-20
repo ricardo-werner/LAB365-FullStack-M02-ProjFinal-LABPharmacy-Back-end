@@ -110,9 +110,9 @@ const Medicamento = connection.define("medicamento", {
     },
 },
     {
-        underscored: true,
-        paranoid: true,
-        timestamps: true,
+      underscored: true,
+      paranoid: true,
+      timestamps: true,
     }
 );
 

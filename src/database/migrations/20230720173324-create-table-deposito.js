@@ -10,7 +10,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
-      usuarioid: {
+      usuarioId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -18,7 +18,7 @@ module.exports = {
           key: 'id'
         },
       },
-      razaosocial: {
+      razaoSocial: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -26,7 +26,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      nomefantasia: {
+      nomeFantasia: {
         type: Sequelize.STRING,
         allowNull: false,
       },
