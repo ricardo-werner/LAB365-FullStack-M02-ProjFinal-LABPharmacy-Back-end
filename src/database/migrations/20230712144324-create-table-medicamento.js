@@ -6,8 +6,8 @@ module.exports = {
     await queryInterface.createTable('medicamentos', {
       id: {
         type: Sequelize.INTEGER,
-        autoIncrement: true,
         primaryKey: true,
+        autoIncrement: true
       },
       usuario_id: {
         type: Sequelize.INTEGER,
@@ -28,13 +28,22 @@ module.exports = {
         type: Sequelize.DECIMAL(10, 2),
       },
       unidade_dosagem: {
-        type: Sequelize.ENUM('mg', 'mcg', 'g', 'mL', '%', 'Outro'),
+        type: Sequelize.ENUM,
+        values: ['mg', 'mcg', 'g', 'mL', '%', 'Outro'],
+        allowNull: false,
+        defaultValue: 'mg'
       },
       tipo_medicamento: {
-        type: Sequelize.ENUM('Medicamento Controlado', 'Medicamento Não Controlado'),
+        type: Sequelize.ENUM,
+        values: ['Medicamento Controlado', 'Medicamento Não Controlado'],
+        allowNull: false,
+        defaultValue: 'Medicamento Não Controlado'
       },
       status: {
-        type: Sequelize.ENUM ('ativo', 'inativo'),
+        type: Sequelize.ENUM,
+        values: ['ativo', 'inativo'],
+        allowNull: false,
+        defaultValue: 'ativo'
       },
       preco_unitario: {
         type: Sequelize.DECIMAL(10, 2),

@@ -6,9 +6,8 @@ module.exports = {
     await queryInterface.createTable('depositos', {
       id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        primaryKey: true,
         autoIncrement: true,
-        primaryKey: true
       },
       usuario_id: {
         type: Sequelize.INTEGER,
@@ -43,6 +42,9 @@ module.exports = {
       numero: {
         type: Sequelize.STRING,
       },
+      complemento: {
+        type: Sequelize.STRING,
+      },      
       bairro: {
         type: Sequelize.STRING,
       },
@@ -52,17 +54,17 @@ module.exports = {
       estado: {
         type: Sequelize.STRING,
       },
-      complemento: {
-        type: Sequelize.STRING,
-      },
       latitude: {
-        type: Sequelize.STRING,
+        type: Sequelize.FLOAT,
       },
       longitude: {
-        type: Sequelize.STRING,
+        type: Sequelize.FLOAT,
       },
       status: {
-        type: Sequelize.ENUM('ativo', 'inativo'),
+        type: Sequelize.ENUM,
+        values: ['ativo', 'inativo'],
+        allowNull: false,
+        defaultValue: 'ativo'
       },
       created_at: {
         type: Sequelize.DATE,
