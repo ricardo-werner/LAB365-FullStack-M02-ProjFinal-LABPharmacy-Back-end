@@ -20,18 +20,6 @@ class UsuarioController {
                 status
             } = request.body;
 
-            console.log(request.body);
-
-            const existeUsuario = await Usuario.findOne({
-                where: { cpf: cpf }
-            });
-            if (existeUsuario) {
-                return response.status(409).send({
-                    message: "Falha na operação ao criar usuário",
-                    cause: "CPF já existe"
-                });
-            }
-
             const novoUsuario = await Usuario.create({
                 nome,
                 sobrenome,
@@ -44,22 +32,13 @@ class UsuarioController {
                 status
             });
 
-            return response.status(201).send({
-                identificador: novoUsuario.id,
-                nome: novoUsuario.nome,
-                sobrenome: novoUsuario.sobrenome,
-                genero: novoUsuario.genero,
-                dt_nascimento: novoUsuario.dt_nascimento,
-                cpf: novoUsuario.cpf,
-                telefone: novoUsuario.telefone,
-                email: novoUsuario.email,
-                senha: novoUsuario.senha,
-                status: novoUsuario.status
-            });
+            return response.status(201).send(novoUsuario);
         } catch (error) {
-            return response.status(400).send({
-                message: "Falha na operação de criar usuário",
-                cause: "Usuário não criado"
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de criar Depósito",
+                cause: message
             });
         }
     }
@@ -227,10 +206,12 @@ class UsuarioController {
 
             return response.status(200).send(usuario)
         } catch (error) {
-            return response.status(400).send({
-                message: "Falha na operação de atualizar status",
-                cause: "Status inválido"
-            })
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de criar Depósito",
+                cause: message
+            });
         }
     }
 
@@ -256,10 +237,12 @@ class UsuarioController {
 
             return response.status(200).send(usuario)
         } catch (error) {
-            return response.status(400).send({
-                message: "Falha na operação de atualizar senha",
-                cause: "Senha inválida"
-            })
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de criar Depósito",
+                cause: message
+            });
         }
     }
     // Definir o endpoint para deletar usuário (deleção física)
@@ -299,10 +282,12 @@ class UsuarioController {
 
         return response.status(200).json(usuario);
 
-    } catch(error) {
-        return response.status(400).json({
-            message: 'Falha na operação de deletar usuário',
-            cause: "Usuário não encontrado"
+    } catch (error) {
+        const status = error.message.status || 400
+        const message = error.message.msg || error.message
+        return response.status(parseInt(status)).send({
+            message: "Falha na operação de criar Depósito",
+            cause: message
         });
     }
 }

@@ -1,74 +1,9 @@
 const { Deposito } = require('../models/deposito')
 const { response } = require('express')
+const { config } = require('dotenv')
+config()
 
 class DepositoController {
-    // async createOneDeposito(request, response) {
-
-    //     try {
-    //         const {
-    //             usuario_id,
-    //             razao_social,
-    //             cnpj,
-    //             nome_fantasia,
-    //             contato,
-    //             email,
-    //             telefone,
-    //             celular,
-    //             cep,
-    //             endereco,
-    //             numero,
-    //             bairro,
-    //             cidade,
-    //             estado,
-    //             complemento,
-    //             latitude,
-    //             longitude,
-    //             status
-    //         } = request.body;
-
-    //         console.log(request.body);
-
-    //         const existeDeposito = await Deposito.findOne({
-    //             where: { razao_social: razao_social, cnpj: cnpj }
-    //         });
-    //         if (existeDeposito) {
-    //             return response.status(409).send({
-    //                 message: "Falha na operação ao criar depósito",
-    //                 cause: "CNPJ já existe"
-    //             });
-    //         }
-
-    //         const novoDeposito = await Deposito.create({
-    //             usuario_id,
-    //             razao_social,
-    //             cnpj,
-    //             nome_fantasia,
-    //             contato,
-    //             email,
-    //             telefone,
-    //             celular,
-    //             cep,
-    //             endereco,
-    //             bairro,
-    //             cidade,
-    //             estado,
-    //             numero,
-    //             complemento,
-    //             latitude,
-    //             longitude,
-    //             status
-    //         })
-
-    //         return response.status(201).send(novoDeposito)
-    //     } catch (error) {
-    //         return response.status(400).send({
-    //                 message: "Falha na operação de criar Deposito",
-    //                 cause: error.message
-    //             }
-    //         )
-    //     }
-    // }
-
     async createOneDeposito(request, response) {
         try {
             const {
@@ -76,37 +11,46 @@ class DepositoController {
                 razao_social,
                 cnpj,
                 nome_fantasia,
+                contato,
                 email,
+                telefone,
                 celular,
                 cep,
                 endereco,
                 numero,
+                complemento,
                 bairro,
                 cidade,
                 estado,
-                complemento,
                 latitude,
                 longitude,
                 status
             } = request.body;
+
+            console.log(request.body)
 
             const novoDeposito = await Deposito.create({
                 usuario_id,
                 razao_social,
                 cnpj,
                 nome_fantasia,
+                contato,
                 email,
+                telefone,
                 celular,
                 cep,
+                endereco,
                 numero,
+                complemento,
                 bairro,
                 cidade,
                 estado,
-                complemento,
                 latitude,
                 longitude,
                 status
             });
+
+            console.log(novoDeposito)
 
             return response.status(201).send(novoDeposito);
         } catch (error) {
@@ -124,10 +68,12 @@ class DepositoController {
             const deposito = await Deposito.findAll()
             return response.status(200).send(deposito)
         } catch (error) {
-            return response.status(400).send({
-                message: "Falha na operação de listar Depositos",
-                cause: error.message
-            })
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de criar Depósito",
+                cause: message
+            });
         }
     }
 
@@ -144,10 +90,12 @@ class DepositoController {
             }
             return response.status(200).send(deposito)
         } catch (error) {
-            return response.status(400).send({
-                message: "Falha na operação de listar Deposito",
-                cause: error.message
-            })
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de criar Depósito",
+                cause: message
+            });
         }
     }
 
@@ -163,10 +111,10 @@ class DepositoController {
                 cep,
                 endereco,
                 numero,
+                complemento,
                 bairro,
                 cidade,
                 estado,
-                complemento,
                 latitude,
                 longitude
             } = request.body;
@@ -189,10 +137,10 @@ class DepositoController {
                 !cep &&
                 !endereco &&
                 !numero &&
+                !complemento &&
                 !bairro &&
                 !cidade &&
                 !estado &&
-                !complemento &&
                 !latitude &&
                 !longitude) {
 
@@ -254,10 +202,12 @@ class DepositoController {
             );
 
         } catch (error) {
-            return response.status(404).send({
-                message: "Falha na operação de atualizar o Deposito",
-                cause: error.message
-            })
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de criar Depósito",
+                cause: message
+            });
         }
     }
 
@@ -285,7 +235,12 @@ class DepositoController {
 
         return response.status(200).json(user);
     } catch(error) {
-        return response.status(400).json({ error: error.message });
+        const status = error.message.status || 400
+        const message = error.message.msg || error.message
+        return response.status(parseInt(status)).send({
+            message: "Falha na operação de criar Depósito",
+            cause: message
+        });
     }
 }
 

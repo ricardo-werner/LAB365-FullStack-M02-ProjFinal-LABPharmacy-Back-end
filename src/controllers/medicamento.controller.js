@@ -1,4 +1,5 @@
 const { Medicamento } = require('../models/medicamento')
+const { response } = require('express')
 
 class MedicamentoController {
     async createOneMedicamento(request, response) {
@@ -18,7 +19,7 @@ class MedicamentoController {
                 quantidade
             } = request.body;
 
-            const data = await Medicamento.create({
+            const novoMedicamento = await Medicamento.create({
                 usuario_id,
                 deposito_id,
                 nome_medicamento,
@@ -32,14 +33,14 @@ class MedicamentoController {
                 quantidade
             })
 
-            return response.status(201).send(data)
+            return response.status(201).send(novoMedicamento)
         } catch (error) {
-            return response.status(400).send(
-                {
-                    message: "Falha na operação de criar medicamento",
-                    cause: error.message
-                }
-            )
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de criar Depósito",
+                cause: message
+            });
         }
     }
 
