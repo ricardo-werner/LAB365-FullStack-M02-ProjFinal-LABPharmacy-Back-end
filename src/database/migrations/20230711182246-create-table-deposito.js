@@ -62,7 +62,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       status: {
-        type: Sequelize.ENUM,
+        type: Sequelize.ENUM('ativo', 'inativo'),
       },
       created_at: {
         type: Sequelize.DATE,
