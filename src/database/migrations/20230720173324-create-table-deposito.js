@@ -3,33 +3,30 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('usuarios', {
+    await queryInterface.createTable('depositos', {
       id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         primaryKey: true,
         autoIncrement: true,
       },
-      nome: {
+      usuarioid: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'usuarios',
+          key: 'id'
+        },
+      },
+      razaosocial: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      sobrenome: {
+      cnpj: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      genero: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      datanascimento: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      cpf: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      telefone: {
+      nomefantasia: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -37,9 +34,49 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      senha: {
+      telefone: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      celular: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      cep: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      endereco: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      numero: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      complemento: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      bairro: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      cidade: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      estado: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      latitude: {
+        type: Sequelize.FLOAT,
+        allowNull: true
+      },
+      longitude: {
+        type: Sequelize.FLOAT,
+        allowNull: true
       },
       status: {
         type: Sequelize.ENUM,
@@ -60,6 +97,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('usuarios');
+    await queryInterface.dropTable('depositos');
   }
 };
+
