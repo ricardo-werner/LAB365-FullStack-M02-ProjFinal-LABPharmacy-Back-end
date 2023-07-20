@@ -7,11 +7,10 @@ class DepositoController {
     async createOneDeposito(request, response) {
         try {
             const {
-                usuario_id,
-                razao_social,
+                usuarioid,
+                razaosocial,
                 cnpj,
-                nome_fantasia,
-                contato,
+                nomefantasia,
                 email,
                 telefone,
                 celular,
@@ -27,14 +26,11 @@ class DepositoController {
                 status
             } = request.body;
 
-            console.log(request.body)
-
             const novoDeposito = await Deposito.create({
-                usuario_id,
-                razao_social,
+                usuarioid,
+                razaosocial,
                 cnpj,
-                nome_fantasia,
-                contato,
+                nomefantasia,
                 email,
                 telefone,
                 celular,
@@ -49,8 +45,6 @@ class DepositoController {
                 longitude,
                 status
             });
-
-            console.log(novoDeposito)
 
             return response.status(201).send(novoDeposito);
         } catch (error) {
@@ -103,7 +97,7 @@ class DepositoController {
         try {
             const { id } = request.params;
             const {
-                nome_fantasia,
+                nomefantasia,
                 contato,
                 email,
                 telefone,
@@ -129,7 +123,7 @@ class DepositoController {
             }
 
             // Verifica se pelo menos um campo está presente na requisição para permitir a atualização
-            if (!nome_fantasia &&
+            if (!nomefantasia &&
                 !contato &&
                 !email &&
                 !telefone &&
@@ -151,8 +145,8 @@ class DepositoController {
             }
 
             // Atualiza apenas os campos fornecidos na requisição
-            if (nome_fantasia !== undefined) {
-                deposito.nome_fantasia = nome_fantasia;
+            if (nomefantasia !== undefined) {
+                deposito.nomefantasia = nomefantasia;
             }
             if (contato !== undefined) {
                 deposito.contato = contato;

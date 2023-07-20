@@ -12,7 +12,7 @@ class UsuarioController {
                 nome,
                 sobrenome,
                 genero,
-                dt_nascimento,
+                datanascimento,
                 cpf,
                 telefone,
                 email,
@@ -24,7 +24,7 @@ class UsuarioController {
                 nome,
                 sobrenome,
                 genero,
-                dt_nascimento,
+                datanascimento,
                 cpf,
                 telefone,
                 email,
@@ -282,7 +282,7 @@ class UsuarioController {
 
         return response.status(200).json(usuario);
 
-    } catch (error) {
+    } catch(error) {
         const status = error.message.status || 400
         const message = error.message.msg || error.message
         return response.status(parseInt(status)).send({

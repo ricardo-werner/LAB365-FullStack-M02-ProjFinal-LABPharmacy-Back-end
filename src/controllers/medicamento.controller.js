@@ -1,4 +1,5 @@
 const { Medicamento } = require('../models/medicamento')
+const { Deposito } = require('../models/deposito')
 const { response } = require('express')
 
 class MedicamentoController {
@@ -6,30 +7,38 @@ class MedicamentoController {
 
         try {
             const {
-                usuario_id,
-                deposito_id,
-                nome_medicamento,
-                nome_laboratorio,
-                descricao_medicamento,
-                dosagem_medicamento,
-                unidade_dosagem,
-                tipo_medicamento,
+                usuarioid,
+                depositoid,
+                medicamentonome,
+                laboratorionome,
+                medicamentodescricao,
+                medicamentodosagem,
+                unidadedosagem,
+                medicamentotipo,
                 status,
-                preco_unitario,
+                precounitario,
                 quantidade
             } = request.body;
 
+            const deposito = await Deposito.findByPk(deposito_id);
+            if (!deposito) {
+                return response.status(404).json({
+                    message: "Falha na operação de criar Medicamento",
+                    cause: "Depósito não encontrado"
+                });
+            }
+
             const novoMedicamento = await Medicamento.create({
-                usuario_id,
-                deposito_id,
-                nome_medicamento,
-                nome_laboratorio,
-                descricao_medicamento,
-                dosagem_medicamento,
-                unidade_dosagem,
-                tipo_medicamento,
+                usuarioid,
+                depositoid,
+                medicamentonome,
+                laboratorionome,
+                medicamentodescricao,
+                medicamentodosagem,
+                unidadedosagem,
+                medicamentotipo,
                 status,
-                preco_unitario,
+                precounitario,
                 quantidade
             })
 
@@ -46,28 +55,32 @@ class MedicamentoController {
 
     async listAllMedicamentos(request, response) {
         try {
-            const data = await Medicamento.findAll()
-            return response.status(200).send(data)
+            const medicamento = await Medicamento.findAll()
+            return response.status(200).send(medicamento)
         } catch (error) {
-            return response.status(400).send({
-                message: "Falha na operação de listar medicamentos",
-                cause: error.message
-            })
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de criar Depósito",
+                cause: message
+            });
         }
     }
 
     async listOneMedicamento(request, response) {
         try {
             const { id } = request.params
-            const data = await Medicamento.findOne({
+            const medicamento = await Medicamento.findOne({
                 where: { id: id }
             })
-            return response.status(200).send(data)
+            return response.status(200).send(medicamento)
         } catch (error) {
-            return response.status(400).send({
-                message: "Falha na operação de listar medicamento",
-                cause: error.message
-            })
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de criar Depósito",
+                cause: message
+            });
         }
     }
 
@@ -75,41 +88,43 @@ class MedicamentoController {
         try {
             const { id } = request.params
             const {
-                usuario_id,
-                deposito_id,
-                nome_medicamento,
-                nome_laboratorio,
-                descricao_medicamento,
-                dosagem_medicamento,
-                unidade_dosagem,
-                tipo_medicamento,
+                usuarioid,
+                depositoid,
+                medicamentonome,
+                laboratorionome,
+                medicamentodescricao,
+                medicamentodosagem,
+                unidadedosagem,
+                medicamentotipo,
+                precounitario,
                 status,
-                preco_unitario,
                 quantidade
             } = request.body;
 
-            const data = await Medicamento.update({
-                usuario_id,
-                deposito_id,
-                nome_medicamento,
-                nome_laboratorio,
-                descricao_medicamento,
-                dosagem_medicamento,
-                unidade_dosagem,
-                tipo_medicamento,
+            const medicamento = await Medicamento.update({
+                usuarioid,
+                depositoid,
+                medicamentonome,
+                laboratorionome,
+                medicamentodescricao,
+                medicamentodosagem,
+                unidadedosagem,
+                medicamentotipo,
                 status,
-                preco_unitario,
+                precounitario,
                 quantidade
             }, {
                 where: { id: id }
             })
 
-            return response.status(200).send(data)
+            return response.status(200).send(medicamento)
         } catch (error) {
-            return response.status(400).send({
-                message: "Falha na operação de atualizar o medicamento",
-                cause: error.message
-            })
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de criar Depósito",
+                cause: message
+            });
         }
     }
 
@@ -117,27 +132,32 @@ class MedicamentoController {
         const { id } = req.params;
 
         // Buscar o usuário pelo identificador
-        const user = await Medicamento.findByPk(id);
-        if (!user) {
+        const medicamento = await Medicamento.findByPk(id);
+        if (!medicamento) {
             return res.status(404).json({ error: 'Medicamento não encontrado' });
         }
 
         // Atualizar o campo de status e delete_at
-        if (user.status === 'ativo') {
-            user.status = 'inativo';
-            user.deleted_at = new Date();
+        if (medicamento.status === 'ativo') {
+            medicamento.status = 'inativo';
+            medicamento.deleted_at = new Date();
             console.log(user.deleted_at)
-        } else if (user.status === 'inativo') {
-            user.status = 'ativo';
-            user.deleted_at = null;
+        } else if (medicamento.status === 'inativo') {
+            medicamento.status = 'ativo';
+            medicamento.deleted_at = null;
         }
 
         // Salvar a alteração no banco de dados
-        await user.save();
+        await medicamento.save();
 
-        return res.status(200).json(user);
+        return res.status(200).json(medicamento);
     } catch(error) {
-        return res.status(400).json({ error: error.message });
+        const status = error.message.status || 400
+        const message = error.message.msg || error.message
+        return response.status(parseInt(status)).send({
+            message: "Falha na operação de criar Depósito",
+            cause: message
+        });
     }
 }
 
