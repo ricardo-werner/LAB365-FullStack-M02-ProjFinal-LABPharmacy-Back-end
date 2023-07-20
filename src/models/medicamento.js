@@ -74,6 +74,7 @@ const Medicamento = connection.define("medicamento", {
     unidade_dosagem: {
         type: ENUM('mg', 'mcg', 'g', 'mL', '%', 'Outro'),
         allowNull: false,
+        defaultValue: 'mg',
         validate: {
             notNull: {
                 msg: "Unidade de Dosagem não se pode deixar vazio",

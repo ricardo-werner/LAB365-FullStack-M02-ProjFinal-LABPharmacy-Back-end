@@ -1,4 +1,5 @@
-const { INTEGER, STRING, ENUM } = require('sequelize');
+const { Sequelize } = require('sequelize');
+const { INTEGER, STRING, ENUM, FLOAT } = require('sequelize');
 const { connection } = require('../database/connection');
 
 const Deposito = connection.define("deposito", {
@@ -10,10 +11,9 @@ const Deposito = connection.define("deposito", {
   razao_social: {
     type: STRING,
     allowNull: false,
-    unique: true,
     validate: {
       notNull: {
-        msg: "Razão Social não se pode deixar vazio",
+        message: "Razão Social não se pode deixar vazio",
       },
     },
   },
@@ -21,145 +21,146 @@ const Deposito = connection.define("deposito", {
     type: STRING,
     allowNull: false,
     validate: {
+      notNull: {
+        message: "CNPJ não se pode deixar vazio",
+      },
       len: {
-        args: [14],
-        msg: "CNPJ deve conter 14 números",
-      },
-      isNumeric: {
-        msg: "CNPJ deve conter apenas números",
-      },
-      notNull: {
-        msg: "CNPJ não se pode deixar vazio",
-      },
-      unique: {
-        msg: { "msg": "CNPJ já existe.", "status": "409" },
-      }
-    },
-  },
-  nome_fantasia: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notNull: {
-        msg: "Nome Fantasia não se pode deixar vazio",
+        args:
+          [14, 14],
+        message: "CNPJ deve conter 14 números",
       },
     },
-  },
-  contato: {
-    type: STRING,
-    allowNull: true,
-  },
-  email: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notNull: {
-        msg: "Email não se pode deixar vazio",
-      },
-      isEmail: { msg: "Email Inválido" }
+    isNumeric: {
+      message: "CNPJ deve conter apenas números",
     },
     unique: {
       message: {
-        "msg": "Email já existe.", "status": "409"
+        "msg": "CNPJ já existe.", "status": "409"
       },
-    }
-  },
-  telefone: {
-    type: STRING,
-    allowNull: true,
-  },
-  celular: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notNull: {
-        msg: "Celular não se pode deixar vazio",
+    },
+    nome_fantasia: {
+      type: STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          message: "Nome Fantasia não se pode deixar vazio",
+        },
+      },
+    },
+    contato: {
+      type: STRING,
+      allowNull: true,
+    },
+    email: {
+      type: STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          message: "Email não se pode deixar vazio",
+        },
+        isEmail: {
+          message: "Email inválido",
+        },
+      },
+    },
+    telefone: {
+      type: STRING,
+      allowNull: true,
+    },
+    celular: {
+      type: STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          message: "Celular não se pode deixar vazio",
+        },
+      },
+    },
+    cep: {
+      type: STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          message: "CEP não se pode deixar vazio",
+        },
+      },
+    },
+    endereco: {
+      type: STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          message: "Endereço não se pode deixar vazio",
+        },
+      },
+    },
+    numero: {
+      type: STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          message: "Número não se pode deixar vazio",
+        },
+      },
+    },
+    complemento: {
+      type: STRING,
+      allowNull: true,
+    },
+    bairro: {
+      type: STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          message: "Bairro não se pode deixar vazio",
+        },
+      },
+    },
+    cidade: {
+      type: STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          message: "Cidade não se pode deixar vazio",
+        },
+      },
+    },
+    estado: {
+      type: STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          message: "Estado não se pode deixar vazio",
+        },
+      },
+    },
+    latitude: {
+      type: FLOAT,
+      allowNull: true,
+    },
+    longitude: {
+      type: FLOAT,
+      allowNull: true,
+    },
+    status: {
+      type: ENUM,
+      values: ['ativo', 'inativo'],
+      allowNull: false,
+      defaultValue: 'ativo',
+      validate: {
+        notNull: {
+          message: "Status não se pode deixar vazio",
+        },
       },
     },
   },
-  cep: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notNull: {
-        msg: "CEP não se pode deixar vazio",
-      },
-    },
-  },
-  endereco: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notNull: {
-        msg: "Endereço não se pode deixar vazio",
-      },
-    },
-  },
-  numero: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notNull: {
-        msg: "Número não se pode deixar vazio",
-      },
-    },
-  },
-  bairro: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notNull: {
-        msg: "Bairro não se pode deixar vazio",
-      },
-    },
-  },
-  cidade: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notNull: {
-        msg: "Cidade não se pode deixar vazio",
-      },
-    },
-  },
-
-  estado: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notNull: {
-        msg: "Estado não se pode deixar vazio",
-      },
-    },
-  },
-  complemento: {
-    type: STRING,
-    allowNull: true,
-  },
-  latitude: {
-    type: STRING,
-    allowNull: true,
-  },
-  longitude: {
-    type: STRING,
-    allowNull: true,
-  },
-  status: {
-    type: ENUM,
-    values: ['ativo', 'inativo'],
-    allowNull: false,
-    defaultValue: 'ativo',
-    validate: {
-      notNull: {
-        msg: "Status não se pode deixar vazio",
-      },
-    },
-  },
-}, {
-  underscored: true,
-  paranoid: true,
-  timestamps: true
-});
+},
+  {
+    underscored: true,
+    paranoid: true,
+    timestamps: true
+  }
+);
 
 
 
