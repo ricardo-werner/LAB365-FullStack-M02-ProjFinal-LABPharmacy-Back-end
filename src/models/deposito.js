@@ -15,8 +15,8 @@ const Deposito = connection.define("deposito", {
       notNull: {
         msg: "Razão Social não se pode deixar vazio",
       },
+    },
   },
-},
   cnpj: {
     type: STRING,
     allowNull: false,
@@ -43,8 +43,8 @@ const Deposito = connection.define("deposito", {
       notNull: {
         msg: "Nome Fantasia não se pode deixar vazio",
       },
+    },
   },
-},
   contato: {
     type: STRING,
     allowNull: true,
@@ -75,8 +75,8 @@ const Deposito = connection.define("deposito", {
       notNull: {
         msg: "Celular não se pode deixar vazio",
       },
+    },
   },
-},
   cep: {
     type: STRING,
     allowNull: false,
@@ -84,54 +84,54 @@ const Deposito = connection.define("deposito", {
       notNull: {
         msg: "CEP não se pode deixar vazio",
       },
+    },
   },
-},
-  endereco: { 
+  endereco: {
     type: STRING,
     allowNull: false,
     validate: {
       notNull: {
         msg: "Endereço não se pode deixar vazio",
       },
+    },
   },
-},
-  numero: { 
+  numero: {
     type: STRING,
     allowNull: false,
     validate: {
       notNull: {
         msg: "Número não se pode deixar vazio",
       },
+    },
   },
-},
-  bairro: { 
+  bairro: {
     type: STRING,
     allowNull: false,
     validate: {
       notNull: {
         msg: "Bairro não se pode deixar vazio",
       },
+    },
   },
-},
-  cidade: { 
+  cidade: {
     type: STRING,
     allowNull: false,
     validate: {
       notNull: {
         msg: "Cidade não se pode deixar vazio",
       },
+    },
   },
-},
 
-  estado: { 
+  estado: {
     type: STRING,
     allowNull: false,
     validate: {
       notNull: {
         msg: "Estado não se pode deixar vazio",
       },
+    },
   },
-},
   complemento: {
     type: STRING,
     allowNull: true,
@@ -154,13 +154,13 @@ const Deposito = connection.define("deposito", {
         msg: "Status não se pode deixar vazio",
       },
     },
-},
+  },
 }, {
   underscored: true,
   paranoid: true,
   timestamps: true
 });
- 
+
 
 
 

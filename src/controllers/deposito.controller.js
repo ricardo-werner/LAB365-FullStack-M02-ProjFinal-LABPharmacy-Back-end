@@ -89,58 +89,7 @@ class DepositoController {
                 longitude,
                 status
             } = request.body;
-    
-            console.log(request.body);
-    
-            // Verificar campos obrigatórios
-            if (!razao_social ||
-                !cnpj ||
-                !nome_fantasia ||
-                !email ||
-                !celular ||
-                !cep ||
-                !endereco ||
-                !numero ||
-                !bairro ||
-                !cidade ||
-                !estado ||
-                !status ) {
-                return response.status(400).send({
-                    message: "Falha na operação de criar Depósito",
-                    cause: "Campos obrigatórios não foram preenchidos"
-                });
-            }
 
-    
-            // Validar formato do CNPJ
-            const cnpjRegex = /^\d{14}$/;
-            if (!cnpjRegex.test(cnpj)) {
-                return response.status(400).send({
-                    message: "Falha na operação de criar Depósito",
-                    cause: "Formato inválido de CNPJ"
-                });
-            }
-    
-            // Validar formato do e-mail
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                return response.status(400).send({
-                    message: "Falha na operação de criar Depósito",
-                    cause: "Formato inválido de e-mail"
-                });
-            }
-    
-            const existeDeposito = await Deposito.findOne({
-                where: { razao_social: razao_social, cnpj: cnpj }
-            });
-    
-            if (existeDeposito) {
-                return response.status(409).send({
-                    message: "Falha na operação ao criar depósito",
-                    cause: "CNPJ já existe"
-                });
-            }
-    
             const novoDeposito = await Deposito.create({
                 usuario_id,
                 razao_social,
@@ -158,16 +107,17 @@ class DepositoController {
                 longitude,
                 status
             });
-    
+
             return response.status(201).send(novoDeposito);
         } catch (error) {
-            return response.status(500).send({
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
                 message: "Falha na operação de criar Depósito",
-                cause: error.message
+                cause: message
             });
         }
     }
-    
 
     async listAllDepositos(request, response) {
         try {
