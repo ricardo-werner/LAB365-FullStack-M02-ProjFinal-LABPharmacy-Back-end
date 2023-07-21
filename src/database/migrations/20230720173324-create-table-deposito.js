@@ -10,7 +10,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
-      usuarioId: {
+      usuario_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -18,7 +18,7 @@ module.exports = {
           key: 'id'
         },
       },
-      razaoSocial: {
+      razao_social: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -26,7 +26,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      nomeFantasia: {
+      nome_fantasia: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -71,12 +71,22 @@ module.exports = {
         allowNull: false,
       },
       latitude: {
-        type: Sequelize.FLOAT,
-        allowNull: true
+        type: Sequelize.STRING,
+        allowNull: true,
+        validate: {
+          isNumeric: {
+            message: 'Latitude deve conter apenas números',
+          },
+        },
       },
       longitude: {
-        type: Sequelize.FLOAT,
-        allowNull: true
+        type: Sequelize.STRING,
+        allowNull: true,
+        validate: {
+          isNumeric: {
+            message: 'Longitude deve conter apenas números',
+          },
+        },
       },
       status: {
         type: Sequelize.ENUM,
