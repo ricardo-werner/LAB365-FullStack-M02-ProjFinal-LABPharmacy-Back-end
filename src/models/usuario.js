@@ -30,7 +30,7 @@ const Usuario = connection.define("usuario", {
       },
     },
   },
-  dataNascimento: {
+  data_nascimento: {
     type: DATE,
     allowNull: false,
     validate: {
@@ -48,8 +48,6 @@ const Usuario = connection.define("usuario", {
       },
       len: {
         args: [11, 11],
-        is: /^\d{11}$/,
-        is: /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/,
         message: "CPF deve conter 11 números",
       },
       isNumeric: {
@@ -61,19 +59,8 @@ const Usuario = connection.define("usuario", {
 
   telefone: {
     type: STRING,
-    allowNull: true,
-    validate: {
-      len: {
-        args: [10, 11],
-        is: /^\d{10,11}$/,
-        message: "Telefone deve conter 10 ou 11 números",
-      },
-      isNumeric: {
-        message: "Telefone deve conter apenas números",
-      },
-    },
+    allowNull: true
   },
-
   email: {
     type: STRING,
     allowNull: false,
@@ -109,11 +96,12 @@ const Usuario = connection.define("usuario", {
       },
     },
   },
-}, {
-  underscored: true,
-  paranoid: true,
-  timestamps: true
-})
+},
+  {
+    underscored: true,
+    paranoid: true,
+    timestamps: true
+  })
 
 // Usuario.associate = (models) => {
 //   Usuario.hasMany(models.Medicamentos, {

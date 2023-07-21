@@ -3,7 +3,7 @@ const { connection } = require('../database/connection');
 
 
 const Medicamento = connection.define("medicamento", {
-    usuarioid: {
+    usuario_id: {
         type: INTEGER,
         foreignKey: true,
         allowNull: false,
@@ -14,7 +14,7 @@ const Medicamento = connection.define("medicamento", {
         },
 
     },
-    depositoid: {
+    deposito_id: {
         type: INTEGER,
         foreignKey: true,
         allowNull: false,
@@ -24,7 +24,7 @@ const Medicamento = connection.define("medicamento", {
             },
         },
     },
-    medicamentonome: {
+    medicamento_nome: {
         type: STRING,
         allowNull: false,
         validate: {
@@ -33,7 +33,7 @@ const Medicamento = connection.define("medicamento", {
             },
         },
     },
-    laboratirionome: {
+    laboratorio_nome: {
         type: STRING,
         allowNull: false,
         validate: {
@@ -42,7 +42,7 @@ const Medicamento = connection.define("medicamento", {
             },
         },
     },
-    medicamentodescricao: {
+    medicamento_descricao: {
         type: STRING,
         allowNull: false,
         validate: {
@@ -51,7 +51,7 @@ const Medicamento = connection.define("medicamento", {
             },
         },
     },
-    medicamentodosagem: {
+    medicamento_dosagem: {
         type: DECIMAL(10, 2),
         allowNull: false,
         validate: {
@@ -60,7 +60,7 @@ const Medicamento = connection.define("medicamento", {
             },
         },
     },
-    unidadedosagem: {
+    unidade_dosagem: {
         type: ENUM('mg', 'mcg', 'g', 'mL', '%', 'Outro'),
         allowNull: false,
         defaultValue: 'mg',
@@ -70,7 +70,7 @@ const Medicamento = connection.define("medicamento", {
             },
         },
     },
-    medicamentotipo: {
+    medicamento_tipo: {
         type: ENUM('Medicamento Controlado', 'Medicamento Não Controlado'),
         allowNull: false,
         validate: {
@@ -90,7 +90,7 @@ const Medicamento = connection.define("medicamento", {
             },
         },
     },
-    precounitario: {
+    preco_unitario: {
         type: DECIMAL(10, 2),
         allowNull: false,
         validate: {
@@ -110,9 +110,9 @@ const Medicamento = connection.define("medicamento", {
     },
 },
     {
-      underscored: true,
-      paranoid: true,
-      timestamps: true,
+        underscored: true,
+        paranoid: true,
+        timestamps: true,
     }
 );
 
