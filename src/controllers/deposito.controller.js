@@ -7,10 +7,10 @@ class DepositoController {
     async createOneDeposito(request, response) {
         try {
             const {
-                usuarioid,
-                razaosocial,
+                usuario_id,
+                razao_social,
                 cnpj,
-                nomefantasia,
+                nome_fantasia,
                 email,
                 telefone,
                 celular,
@@ -26,11 +26,25 @@ class DepositoController {
                 status
             } = request.body;
 
+            // Verifica se o deposito já existe
+            const depositoExistente = await Deposito.findOne({
+                where: {
+                    cnpj: cnpj
+                }
+            });
+
+            if (depositoExistente) {
+                return response.status(409).send({
+                    message: "Falha na operação de criar Depósito",
+                    cause: "Depósito já existe"
+                });
+            }
+
             const novoDeposito = await Deposito.create({
-                usuarioid,
-                razaosocial,
+                usuario_id,
+                razao_social,
                 cnpj,
-                nomefantasia,
+                nome_fantasia,
                 email,
                 telefone,
                 celular,
@@ -54,6 +68,7 @@ class DepositoController {
                 message: "Falha na operação de criar Depósito",
                 cause: message
             });
+            console.log(error)
         }
     }
 
@@ -97,7 +112,7 @@ class DepositoController {
         try {
             const { id } = request.params;
             const {
-                nomefantasia,
+                nome_fantasia,
                 contato,
                 email,
                 telefone,
@@ -123,7 +138,7 @@ class DepositoController {
             }
 
             // Verifica se pelo menos um campo está presente na requisição para permitir a atualização
-            if (!nomefantasia &&
+            if (!nome_fantasia &&
                 !contato &&
                 !email &&
                 !telefone &&
@@ -145,8 +160,8 @@ class DepositoController {
             }
 
             // Atualiza apenas os campos fornecidos na requisição
-            if (nomefantasia !== undefined) {
-                deposito.nomefantasia = nomefantasia;
+            if (nome_fantasia !== undefined) {
+                deposito.nome_fantasia = nome_fantasia;
             }
             if (contato !== undefined) {
                 deposito.contato = contato;

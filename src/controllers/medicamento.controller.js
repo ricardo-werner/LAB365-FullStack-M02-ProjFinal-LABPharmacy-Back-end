@@ -7,16 +7,16 @@ class MedicamentoController {
 
         try {
             const {
-                usuarioid,
-                depositoid,
-                medicamentonome,
-                laboratorionome,
-                medicamentodescricao,
-                medicamentodosagem,
-                unidadedosagem,
-                medicamentotipo,
+                usuario_id,
+                deposito_id,
+                medicamento_nome,
+                laboratorio_nome,
+                medicamento_descricao,
+                medicamento_dosagem,
+                unidade_dosagem,
+                medicamento_tipo,
                 status,
-                precounitario,
+                preco_unitario,
                 quantidade
             } = request.body;
 
@@ -28,17 +28,30 @@ class MedicamentoController {
                 });
             }
 
+            const medicamento = await Medicamento.findOne({
+                where: {
+                    medicamento_nome: medicamento_nome,
+                    laboratorio_nome: laboratorio_nome,
+                }
+            })
+            if (medicamento) {
+                return response.status(409).json({
+                    message: "Falha na operação de criar Medicamento",
+                    cause: "Medicamento já cadastrado"
+                });
+            }
+
             const novoMedicamento = await Medicamento.create({
-                usuarioid,
-                depositoid,
-                medicamentonome,
-                laboratorionome,
-                medicamentodescricao,
-                medicamentodosagem,
-                unidadedosagem,
-                medicamentotipo,
+                usuario_id,
+                deposito_id,
+                medicamento_nome,
+                laboratorio_nome,
+                medicamento_descricao,
+                medicamento_dosagem,
+                unidade_dosagem,
+                medicamento_tipo,
                 status,
-                precounitario,
+                preco_unitario,
                 quantidade
             })
 
@@ -88,30 +101,30 @@ class MedicamentoController {
         try {
             const { id } = request.params
             const {
-                usuarioid,
-                depositoid,
-                medicamentonome,
-                laboratorionome,
-                medicamentodescricao,
-                medicamentodosagem,
-                unidadedosagem,
-                medicamentotipo,
-                precounitario,
+                usuario_id,
+                deposito_id,
+                medicamento_nome,
+                laboratorio_nome,
+                medicamento_descricao,
+                medicamento_dosagem,
+                unidade_dosagem,
+                medicamento_tipo,
+                preco_unitario,
                 status,
                 quantidade
             } = request.body;
 
             const medicamento = await Medicamento.update({
-                usuarioid,
-                depositoid,
-                medicamentonome,
-                laboratorionome,
-                medicamentodescricao,
-                medicamentodosagem,
-                unidadedosagem,
-                medicamentotipo,
+                usuario_id,
+                deposito_id,
+                medicamento_nome,
+                laboratorio_nome,
+                medicamento_descricao,
+                medicamento_dosagem,
+                unidade_dosagem,
+                medicamento_tipo,
                 status,
-                precounitario,
+                preco_unitario,
                 quantidade
             }, {
                 where: { id: id }

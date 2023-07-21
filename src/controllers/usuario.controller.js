@@ -12,7 +12,7 @@ class UsuarioController {
                 nome,
                 sobrenome,
                 genero,
-                dataNascimento,
+                data_nascimento,
                 cpf,
                 telefone,
                 email,
@@ -20,11 +20,23 @@ class UsuarioController {
                 status
             } = request.body;
 
+            // Verifica se já existe um usuário com o mesmo email
+            const usuarioExistente = await Usuario.findOne({
+                where: { email: email }
+            });
+
+            if (usuarioExistente) {
+                return response.status(400).json({
+                    message: "Falha na operação de criar Usuário",
+                    cause: "O email informado já está em uso."
+                });
+            }
+
             const novoUsuario = await Usuario.create({
                 nome,
                 sobrenome,
                 genero,
-                dataNascimento,
+                data_nascimento,
                 cpf,
                 telefone,
                 email,
