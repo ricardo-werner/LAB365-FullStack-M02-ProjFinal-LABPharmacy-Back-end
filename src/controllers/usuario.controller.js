@@ -27,7 +27,7 @@ class UsuarioController {
 
             if (usuarioExistente) {
                 return response.status(400).json({
-                    message: "Falha na operação de criar Usuário",
+                    message: "Falha na operação de criar usuário",
                     cause: "O email informado já está em uso."
                 });
             }
@@ -49,7 +49,7 @@ class UsuarioController {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
             return response.status(parseInt(status)).send({
-                message: "Falha na operação de criar Depósito",
+                message: "Falha na operação de criar usuário",
                 cause: message
             });
         }
@@ -92,10 +92,12 @@ class UsuarioController {
             return response.status(200).send({ "token": token })
 
         } catch (error) {
-            return response.status(500).send({
-                message: "Falha na tentativa de Login",
-                cause: "Erro interno do servidor"
-            })
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de criar usuário",
+                cause: message
+            });
         }
     }
 
@@ -194,34 +196,34 @@ class UsuarioController {
     async updateOneStatus(request, response) {
         try {
             const { id } = request.params;
-            const {
-                status
-            } = request.body;
+            const { status } = request.body;
 
+            const usuario = await Usuario.findByPk(id);
             if (!usuario) {
                 return response.status(404).send({
                     message: "Falha na operação de atualizar status",
                     cause: "Usuário não encontrado"
-                })
+                });
             }
 
-            if (status != 'ativo' && status != 'inativo') {
+            if (status !== 'ativo' && status !== 'inativo') {
                 return response.status(404).send({
                     message: "Falha na operação de atualizar status",
                     cause: "Status não encontrado"
-                })
+                });
             }
 
-            const usuario = await Usuario.update(id, {
-                status
-            })
+            await Usuario.update({ status }, { where: { id } });
 
-            return response.status(200).send(usuario)
+            // Recuperar o usuário atualizado para retornar na resposta
+            const usuarioAtualizado = await Usuario.findByPk(id);
+
+            return response.status(200).send(usuarioAtualizado);
         } catch (error) {
-            const status = error.message.status || 400
-            const message = error.message.msg || error.message
+            const status = error.message.status || 400;
+            const message = error.message.msg || error.message;
             return response.status(parseInt(status)).send({
-                message: "Falha na operação de criar Depósito",
+                message: "Falha na operação de atualizar status",
                 cause: message
             });
         }
@@ -236,7 +238,7 @@ class UsuarioController {
 
             if (!usuario) {
                 return response.status(404).send({
-                    message: "Falha na operação de atualizar status",
+                    message: "Falha na operação de atualizar senha",
                     cause: "Usuário não encontrado"
                 })
             }
@@ -252,55 +254,89 @@ class UsuarioController {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
             return response.status(parseInt(status)).send({
-                message: "Falha na operação de criar Depósito",
+                message: "Falha na operação de atualizar senha",
                 cause: message
             });
         }
     }
-    // Definir o endpoint para deletar usuário (deleção física)
-    //
+    // //Definir o endpoint para deletar usuário (deleção física)
+
     // async deleteOneUsuario(request, response) {
     //     try {
-    //         const { id } = request.params
-    //         const usuario = await usuario.destroy({
-    //             where: { id: id }
-    //         })
-    //         return response.status(200).send(usuario)
+    //         const { id } = request.params;
+    //         const usuario = await Usuario.findByPk(id);
+
+    //         if (!usuario) {
+    //             return response.status(404).send({
+    //                 message: "Falha na operação de deletar usuário",
+    //                 cause: "Usuário não encontrado"
+    //             });
+    //         }
+
+    //         await Usuario.destroy({ where: { id }, force: true });
+
+    //         return response.status(200).send({
+    //             message: "Usuário deletado com sucesso"
+    //         });
     //     } catch (error) {
     //         return response.status(400).send({
     //             message: "Falha na operação de deletar usuário",
     //             cause: error.message
-    //         })
+    //         });
     //     }
     // }
 
-    // Definir o endpoint para atualizar o status de um usuário (deleção lógica)
+
+    //Definir o endpoint para deletar usuário (deleção lógica)
     async deleteOneUsuario(require, response) {
-        const { id } = require.params;
+        try {
+            const { id } = require.params;
 
-        const usuario = await Usuario.findByPk(id, { paranoid: false });
-        if (!usuario) {
-            return response.status(404).json({ error: 'Usuário não encontrado' });
+            const usuario = await Usuario.findByPk(id, { paranoid: true });
+            if (!usuario) {
+                return response.status(404).json({ error: 'Usuário não encontrado' });
+            }
+
+            if (usuario.status === 'ativo') {
+                usuario.status = 'inativo';
+                await usuario.destroy(); // Realiza o Soft Delete
+            }
+
+            return response.status(200).json(usuario);
+
+        } catch (error) {
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de deletar usuário",
+                cause: message
+            });
         }
+    }
 
-        if (usuario.status === 'ativo') {
-            usuario.status = 'inativo';
-            await usuario.destroy(); // Realiza o Soft Delete
-        } else if (usuario.status === 'inativo') {
+    async restoreOneUsuario(require, response) {
+        try {
+            const { id } = require.params;
+
+            const usuario = await Usuario.findByPk(id, { paranoid: false });
+            if (!usuario) {
+                return response.status(404).json({ error: 'Usuário não encontrado' });
+            }
+
+            await usuario.restore(); // Realiza o Soft Delete
             usuario.status = 'ativo';
-            usuario.deleted_at = null;
             await usuario.save();
+
+            return response.status(200).json(usuario);
+
+        } catch (error) {
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de restaurar usuário",
+                cause: message
+            });
         }
-
-        return response.status(200).json(usuario);
-
-    } catch(error) {
-        const status = error.message.status || 400
-        const message = error.message.msg || error.message
-        return response.status(parseInt(status)).send({
-            message: "Falha na operação de criar Depósito",
-            cause: message
-        });
     }
 }
 
