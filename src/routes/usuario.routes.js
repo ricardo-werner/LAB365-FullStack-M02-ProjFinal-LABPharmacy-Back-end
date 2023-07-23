@@ -23,7 +23,7 @@ class UsuarioRouter {
         usuarioRoutes.patch('/updateOneStatus/:id/status', auth, updateOneStatus)
         usuarioRoutes.patch('/updateOneSenha/:id/senha', auth, updateOneSenha)
         usuarioRoutes.delete('/deleteOneUsuario/:id', auth, deleteOneUsuario)
-        //usuarioRoutes.patch('/restoreOneUsuario/:id', auth, restoreOneUsuario)
+        usuarioRoutes.patch('/restoreOneUsuario/:id', auth, restoreOneUsuario)
         return usuarioRoutes
     }
 }
