@@ -218,7 +218,9 @@ class UsuarioController {
             // Recuperar o usuário atualizado para retornar na resposta
             const usuarioAtualizado = await Usuario.findByPk(id);
 
-            return response.status(200).send(usuarioAtualizado);
+            return response.status(200).send(usuarioAtualizado, {
+                message: "Usuário atualizado com sucesso"
+            });
         } catch (error) {
             const status = error.message.status || 400;
             const message = error.message.msg || error.message;
