@@ -69,12 +69,13 @@ class MedicamentoController {
     async listAllMedicamentos(request, response) {
         try {
             const medicamento = await Medicamento.findAll()
+
             return response.status(200).send(medicamento)
         } catch (error) {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
             return response.status(parseInt(status)).send({
-                message: "Falha na operação de criar Depósito",
+                message: "Falha na operação de listar Medicamentos",
                 cause: message
             });
         }
@@ -83,15 +84,21 @@ class MedicamentoController {
     async listOneMedicamento(request, response) {
         try {
             const { id } = request.params
-            const medicamento = await Medicamento.findOne({
-                where: { id: id }
-            })
+            const medicamento = await Medicamento.findByPk(id);
+
+            if (!medicamento) {
+                return response.status(404).send({
+                    message: "Falha na operação de listar medicamento",
+                    cause: "Medicamento não encontrado"
+                });
+            }
+
             return response.status(200).send(medicamento)
         } catch (error) {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
             return response.status(parseInt(status)).send({
-                message: "Falha na operação de criar Depósito",
+                message: "Falha na operação de listar Medicamento",
                 cause: message
             });
         }
@@ -135,42 +142,101 @@ class MedicamentoController {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
             return response.status(parseInt(status)).send({
-                message: "Falha na operação de criar Depósito",
+                message: "Falha na operação de atualizar Medicamento",
                 cause: message
             });
         }
     }
 
-    async deleteOneMedicamento(req, res) {
-        const { id } = req.params;
+    // Atualizar o status do medicamento
+    async updateOneMedicamentoStatus(request, response) {
+        try {
+            const { id } = request.params;
+            const { status } = request.body;
 
-        // Buscar o usuário pelo identificador
-        const medicamento = await Medicamento.findByPk(id);
-        if (!medicamento) {
-            return res.status(404).json({ error: 'Medicamento não encontrado' });
+            const medicamento = await Medicamento.findByPk(id);
+            if (!medicamento) {
+                return response.status(404).send({
+                    message: "Falha na operação de atualizar status do medicamento",
+                    cause: "Medicamento não encontrado"
+                });
+            }
+
+            if (status !== 'disponivel' && status !== 'indisponivel') {
+                return response.status(404).send({
+                    message: "Falha na operação de atualizar status do medicamento",
+                    cause: "Status do medicamento não encontrado"
+                });
+            }
+
+            await Medicamento.update({ status }, { where: { id } });
+
+            // Recuperar o usuário atualizado para retornar na resposta
+            const medicamentoAtualizado = await Medicamento.findByPk(id);
+
+            return response.status(200).send(medicamentoAtualizado);
+        } catch (error) {
+            const status = error.message.status || 400;
+            const message = error.message.msg || error.message;
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de atualizar status do medicamento",
+                cause: message
+            });
         }
+    }
 
-        // Atualizar o campo de status e delete_at
-        if (medicamento.status === 'ativo') {
-            medicamento.status = 'inativo';
-            medicamento.deleted_at = new Date();
-            console.log(user.deleted_at)
-        } else if (medicamento.status === 'inativo') {
-            medicamento.status = 'ativo';
-            medicamento.deleted_at = null;
+
+
+    async deleteOneMedicamento(require, response) {
+        try {
+            const { id } = require.params;
+
+            const medicamento = await Medicamento.findByPk(id, { paranoid: true });
+            if (!medicamento) {
+                return response.status(404).json({ error: 'Medicamento não encontrado' });
+            }
+
+            if (medicamento.status === 'disponivel') {
+                medicamento.status = 'indisponivel';
+                await medicamento.destroy(); // Realiza o Soft Delete
+            }
+
+            return response.status(204).json(medicamento);
+
+        } catch (error) {
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de deletar medicamento",
+                cause: message
+            });
         }
+    }
 
-        // Salvar a alteração no banco de dados
-        await medicamento.save();
+    //Definir o endpoint para restaurar usuário (retauração lógica)
+    async restoreOneMedicamento(require, response) {
+        try {
+            const { id } = require.params;
 
-        return res.status(200).json(medicamento);
-    } catch(error) {
-        const status = error.message.status || 400
-        const message = error.message.msg || error.message
-        return response.status(parseInt(status)).send({
-            message: "Falha na operação de criar Depósito",
-            cause: message
-        });
+            const medicamento = await Medicamento.findByPk(id, { paranoid: false });
+            if (!medicamento) {
+                return response.status(404).json({ error: 'Medicamento não encontrado' });
+            }
+
+            await medicamento.restore(); // Realiza o Soft Delete
+            medicamento.status = 'disponivel';
+            await medicamento.save();
+
+            return response.status(200).json(medicamento);
+
+        } catch (error) {
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de restaurar medicamento",
+                cause: message
+            });
+        }
     }
 }
 
