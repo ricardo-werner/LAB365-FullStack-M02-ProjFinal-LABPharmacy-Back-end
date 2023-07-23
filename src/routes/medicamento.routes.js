@@ -3,7 +3,9 @@ const {
     listAllMedicamentos,
     listOneMedicamento,
     updateOneMedicamento,
-    deleteOneMedicamento
+    updateOneMedicamentoStatus,
+    deleteOneMedicamento,
+    restoreOneMedicamento
 } = require('../controllers/medicamento.controller')
 const { Router } = require('express')
 const { auth } = require('../middleware/auth')
@@ -15,7 +17,9 @@ class MedicamentoRouter {
         medicamentoRoutes.get('/listAllMedicamentos', auth, listAllMedicamentos)
         medicamentoRoutes.get('/listOneMedicamento/:id', auth, listOneMedicamento)
         medicamentoRoutes.patch('/updateOneMedicamento/:id', auth, updateOneMedicamento)
+        medicamentoRoutes.patch('/updateOneMedicamentoStatus/:id/status', auth, updateOneMedicamentoStatus)
         medicamentoRoutes.delete('/deleteOneMedicamento/:id', auth, deleteOneMedicamento)
+        medicamentoRoutes.patch('/restoreOneMedicamento/:id', auth, restoreOneMedicamento)
         return medicamentoRoutes
     }
 }
