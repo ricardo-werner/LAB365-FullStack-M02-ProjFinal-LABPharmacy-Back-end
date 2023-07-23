@@ -104,11 +104,14 @@ class UsuarioController {
     async listAllUsuarios(request, response) {
         try {
             const usuario = await Usuario.findAll()
+
             return response.status(200).send(usuario)
         } catch (error) {
-            return response.status(400).send({
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
                 message: "Falha na operação de listar usuários",
-                cause: "Usuários não encontrados"
+                cause: message
             })
         }
     }
@@ -127,11 +130,15 @@ class UsuarioController {
                 });
             }
 
-            return response.status(200).send(usuario);
+            return response.status(200).send(usuario, {
+                message: "Usuário listado com sucesso"
+            });
         } catch (error) {
-            return response.status(400).send({
+            const status = error.message.status || 400;
+            const message = error.message.msg || error.message;
+            return response.status(parseInt(status)).send({
                 message: "Erro ao listar usuário",
-                cause: error.message
+                cause: message
             });
         }
     }
@@ -185,9 +192,11 @@ class UsuarioController {
             );
 
         } catch (error) {
-            return response.status(401).send({
-                message: "Falha ao atualizar no banco de dados",
-                cause: error.message // Retorna a mensagem de erro específica
+            const status = error.message.status || 400;
+            const message = error.message.msg || error.message;
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de atualizar usuário",
+                cause: message // Retorna a mensagem de erro específica
             });
         }
     }
