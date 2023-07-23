@@ -1,4 +1,6 @@
 const { Deposito } = require('../models/deposito')
+const { Usuario } = require('../models/usuario')
+const { Medicamento } = require('../models/medicamento')
 const { response } = require('express')
 const { config } = require('dotenv')
 config()
@@ -75,6 +77,7 @@ class DepositoController {
     async listAllDepositos(request, response) {
         try {
             const deposito = await Deposito.findAll()
+
             return response.status(200).send(deposito)
         } catch (error) {
             const status = error.message.status || 400
@@ -97,6 +100,7 @@ class DepositoController {
                     cause: "Depósito não encontrado"
                 })
             }
+
             return response.status(200).send(deposito)
         } catch (error) {
             const status = error.message.status || 400
@@ -207,7 +211,6 @@ class DepositoController {
             await deposito.save();
 
             return response.status(204).send(deposito);
-
         } catch (error) {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
@@ -255,7 +258,6 @@ class DepositoController {
         }
     }
 
-
     //Definir o endpoint para deletar usuário (deleção lógica)
     async deleteOneDeposito(require, response) {
         try {
@@ -263,7 +265,7 @@ class DepositoController {
 
             const deposito = await Deposito.findByPk(id, { paranoid: true });
             if (!deposito) {
-                return response.status(404).json({ error: 'Depósito não encontrado' });
+                return response.status(404).send({ error: 'Depósito não encontrado' });
             }
 
             if (deposito.status === 'ativo') {
@@ -271,8 +273,7 @@ class DepositoController {
                 await deposito.destroy(); // Realiza o Soft Delete
             }
 
-            return response.status(204).json(deposito);
-
+            return response.status(204).send(deposito);
         } catch (error) {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
@@ -290,17 +291,14 @@ class DepositoController {
 
             const deposito = await Deposito.findByPk(id, { paranoid: false });
             if (!deposito) {
-                return response.status(404).json({ error: 'Depósito não encontrado' });
+                return response.status(404).send({ error: 'Depósito não encontrado' });
             }
 
             await deposito.restore(); // Realiza o Soft Delete
             deposito.status = 'ativo';
             await deposito.save();
 
-            return response.status(200).json(deposito, {
-                message: "Depósito restaurado com sucesso"
-            });
-
+            return response.status(200).send(deposito);
         } catch (error) {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
@@ -310,8 +308,6 @@ class DepositoController {
             });
         }
     }
-
-
 }
 
 module.exports = new DepositoController()

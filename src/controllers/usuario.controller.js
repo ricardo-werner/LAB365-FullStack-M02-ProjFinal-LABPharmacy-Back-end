@@ -1,4 +1,6 @@
 const { Usuario } = require('../models/usuario')
+const { Deposito } = require('../models/deposito')
+const { Medicamento } = require('../models/medicamento')
 const { senha } = require('../models/usuario')
 const { SECRET_KEY_JWT } = require('../config/database.config')
 const { config } = require('dotenv')
@@ -26,7 +28,7 @@ class UsuarioController {
             });
 
             if (usuarioExistente) {
-                return response.status(400).json({
+                return response.status(400).send({
                     message: "Falha na operação de criar usuário",
                     cause: "O email informado já está em uso."
                 });
@@ -130,9 +132,7 @@ class UsuarioController {
                 });
             }
 
-            return response.status(200).send(usuario, {
-                message: "Usuário listado com sucesso"
-            });
+            return response.status(200).send(usuario);
         } catch (error) {
             const status = error.message.status || 400;
             const message = error.message.msg || error.message;
@@ -187,9 +187,7 @@ class UsuarioController {
             // Salva as alterações no banco de dados
             await usuario.save();
 
-            return response.status(202).send(
-                { message: "Usuário atualizado com sucesso" }
-            );
+            return response.status(202).send(usuario);
 
         } catch (error) {
             const status = error.message.status || 400;
@@ -227,9 +225,7 @@ class UsuarioController {
             // Recuperar o usuário atualizado para retornar na resposta
             const usuarioAtualizado = await Usuario.findByPk(id);
 
-            return response.status(200).send(usuarioAtualizado, {
-                message: "Usuário atualizado com sucesso"
-            });
+            return response.status(200).send(usuarioAtualizado);
         } catch (error) {
             const status = error.message.status || 400;
             const message = error.message.msg || error.message;
@@ -305,7 +301,7 @@ class UsuarioController {
 
             const usuario = await Usuario.findByPk(id, { paranoid: true });
             if (!usuario) {
-                return response.status(404).json({ error: 'Usuário não encontrado' });
+                return response.status(404).send({ error: 'Usuário não encontrado' });
             }
 
             if (usuario.status === 'ativo') {
@@ -313,7 +309,7 @@ class UsuarioController {
                 await usuario.destroy(); // Realiza o Soft Delete
             }
 
-            return response.status(200).json(usuario);
+            return response.status(200).send(usuario);
 
         } catch (error) {
             const status = error.message.status || 400
@@ -332,14 +328,14 @@ class UsuarioController {
 
             const usuario = await Usuario.findByPk(id, { paranoid: false });
             if (!usuario) {
-                return response.status(404).json({ error: 'Usuário não encontrado' });
+                return response.status(404).send({ error: 'Usuário não encontrado' });
             }
 
             await usuario.restore(); // Realiza o Soft Delete
             usuario.status = 'ativo';
             await usuario.save();
 
-            return response.status(200).json(usuario);
+            return response.status(200).send(usuario);
 
         } catch (error) {
             const status = error.message.status || 400

@@ -1,5 +1,6 @@
 const { Medicamento } = require('../models/medicamento')
 const { Deposito } = require('../models/deposito')
+const { Usuario } = require('../models/usuario')
 const { response } = require('express')
 
 class MedicamentoController {
@@ -22,7 +23,7 @@ class MedicamentoController {
 
             const deposito = await Deposito.findByPk(deposito_id);
             if (!deposito) {
-                return response.status(404).json({
+                return response.status(404).send({
                     message: "Falha na operação de criar Medicamento",
                     cause: "Depósito não encontrado"
                 });
@@ -35,7 +36,7 @@ class MedicamentoController {
                 }
             })
             if (medicamento) {
-                return response.status(409).json({
+                return response.status(409).send({
                     message: "Falha na operação de criar Medicamento",
                     cause: "Medicamento já cadastrado"
                 });
@@ -185,15 +186,13 @@ class MedicamentoController {
         }
     }
 
-
-
     async deleteOneMedicamento(require, response) {
         try {
             const { id } = require.params;
 
             const medicamento = await Medicamento.findByPk(id, { paranoid: true });
             if (!medicamento) {
-                return response.status(404).json({ error: 'Medicamento não encontrado' });
+                return response.status(404).send({ error: 'Medicamento não encontrado' });
             }
 
             if (medicamento.status === 'disponivel') {
@@ -201,8 +200,7 @@ class MedicamentoController {
                 await medicamento.destroy(); // Realiza o Soft Delete
             }
 
-            return response.status(204).json(medicamento);
-
+            return response.status(204).send(medicamento);
         } catch (error) {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
@@ -220,15 +218,14 @@ class MedicamentoController {
 
             const medicamento = await Medicamento.findByPk(id, { paranoid: false });
             if (!medicamento) {
-                return response.status(404).json({ error: 'Medicamento não encontrado' });
+                return response.status(404).send({ error: 'Medicamento não encontrado' });
             }
 
             await medicamento.restore(); // Realiza o Soft Delete
             medicamento.status = 'disponivel';
             await medicamento.save();
 
-            return response.status(200).json(medicamento);
-
+            return response.status(200).send(medicamento);
         } catch (error) {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
