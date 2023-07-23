@@ -3,7 +3,9 @@ const {
     listAllDepositos,
     listOneDeposito,
     updateOneDeposito,
-    deleteOneDeposito
+    updateOneDepositoStatus,
+    deleteOneDeposito,
+    restoreOneDeposito
 } = require('../controllers/deposito.controller')
 const { Router } = require('express')
 const { auth } = require('../middleware/auth')
@@ -15,7 +17,9 @@ class DepositoRouter {
         depositoRoutes.get('/listAllDepositos', auth, listAllDepositos)
         depositoRoutes.get('/listOneDeposito/:id', auth, listOneDeposito)
         depositoRoutes.patch('/updateOneDeposito/:id', auth, updateOneDeposito)
+        depositoRoutes.patch('/updateOneDepositoStatus/:id/status', auth, updateOneDepositoStatus)
         depositoRoutes.delete('/deleteOneDeposito/:id', auth, deleteOneDeposito)
+        depositoRoutes.patch('/restoreOneDeposito/:id', auth, restoreOneDeposito)
         return depositoRoutes
     }
 }

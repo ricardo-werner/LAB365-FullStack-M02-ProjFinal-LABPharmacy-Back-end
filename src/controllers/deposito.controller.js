@@ -35,7 +35,7 @@ class DepositoController {
 
             if (depositoExistente) {
                 return response.status(409).send({
-                    message: "Falha na operação de criar Depósito",
+                    message: "Falha na operação de criar depósito",
                     cause: "Depósito já existe"
                 });
             }
@@ -65,7 +65,7 @@ class DepositoController {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
             return response.status(parseInt(status)).send({
-                message: "Falha na operação de criar Depósito",
+                message: "Falha na operação de criar depósito",
                 cause: message
             });
             console.log(error)
@@ -80,7 +80,7 @@ class DepositoController {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
             return response.status(parseInt(status)).send({
-                message: "Falha na operação de criar Depósito",
+                message: "Falha na operação de listar os depósitos",
                 cause: message
             });
         }
@@ -89,12 +89,12 @@ class DepositoController {
     async listOneDeposito(request, response) {
         try {
             const { id } = request.params
-            const deposito = await Deposito.findOne(id);
+            const deposito = await Deposito.findByPk(id);
 
             if (!deposito) {
                 return response.status(404).send({
-                    message: "Falha na operação de listar Deposito",
-                    cause: "Deposito não encontrado"
+                    message: "Falha na operação de listar depósito",
+                    cause: "Depósito não encontrado"
                 })
             }
             return response.status(200).send(deposito)
@@ -102,7 +102,7 @@ class DepositoController {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
             return response.status(parseInt(status)).send({
-                message: "Falha na operação de criar Depósito",
+                message: "Falha na operação de listar depósito",
                 cause: message
             });
         }
@@ -206,51 +206,112 @@ class DepositoController {
             // Salva as alterações no banco de dados
             await deposito.save();
 
-            return response.status(204).send(
-                { message: "Deposito atualizado com sucesso" }
-            );
+            return response.status(204).send(deposito);
 
         } catch (error) {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
             return response.status(parseInt(status)).send({
-                message: "Falha na operação de criar Depósito",
+                message: "Falha na operação de atualizar Depósito",
                 cause: message
             });
         }
     }
 
-    async deleteOneDeposito(request, response) {
-        const { id } = request.params;
+    //Definir o endpoint para alterar o status do depósito
+    async updateOneDepositoStatus(request, response) {
+        try {
+            const { id } = request.params;
+            const { status } = request.body;
 
-        // Buscar o usuário pelo identificador
-        const user = await Deposito.findByPk(id);
-        if (!user) {
-            return res.status(404).json({ error: 'Deposito não encontrado' });
+            const deposito = await Deposito.findByPk(id);
+            if (!deposito) {
+                return response.status(404).send({
+                    message: "Falha na operação de atualizar status do depósito",
+                    cause: "Depósito não encontrado"
+                });
+            }
+
+            if (status !== 'ativo' && status !== 'inativo') {
+                return response.status(404).send({
+                    message: "Falha na operação de atualizar status do depósito",
+                    cause: "Status do depósito não encontrado"
+                });
+            }
+
+            await Deposito.update({ status }, { where: { id } });
+
+            // Recuperar o depósito atualizado para retornar na resposta
+            const depositoAtualizado = await Deposito.findByPk(id);
+
+            return response.status(204).send(depositoAtualizado)
+        } catch (error) {
+            const status = error.message.status || 400;
+            const message = error.message.msg || error.message;
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de atualizar status",
+                cause: message
+            });
         }
-
-        // Atualizar o campo de status e delete_at
-        if (user.status === 'ativo') {
-            user.status = 'inativo';
-            user.deleted_at = new Date();
-            console.log(user.deleted_at)
-        } else if (user.status === 'inativo') {
-            user.status = 'ativo';
-            user.deleted_at = null;
-        }
-
-        // Salvar a alteração no banco de dados
-        await user.save();
-
-        return response.status(200).json(user);
-    } catch(error) {
-        const status = error.message.status || 400
-        const message = error.message.msg || error.message
-        return response.status(parseInt(status)).send({
-            message: "Falha na operação de criar Depósito",
-            cause: message
-        });
     }
+
+
+    //Definir o endpoint para deletar usuário (deleção lógica)
+    async deleteOneDeposito(require, response) {
+        try {
+            const { id } = require.params;
+
+            const deposito = await Deposito.findByPk(id, { paranoid: true });
+            if (!deposito) {
+                return response.status(404).json({ error: 'Depósito não encontrado' });
+            }
+
+            if (deposito.status === 'ativo') {
+                deposito.status = 'inativo';
+                await deposito.destroy(); // Realiza o Soft Delete
+            }
+
+            return response.status(204).json(deposito);
+
+        } catch (error) {
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de deletar despósito",
+                cause: message
+            });
+        }
+    }
+
+    //Definir o endpoint para restaurar usuário (restauração lógica)
+    async restoreOneDeposito(require, response) {
+        try {
+            const { id } = require.params;
+
+            const deposito = await Deposito.findByPk(id, { paranoid: false });
+            if (!deposito) {
+                return response.status(404).json({ error: 'Depósito não encontrado' });
+            }
+
+            await deposito.restore(); // Realiza o Soft Delete
+            deposito.status = 'ativo';
+            await deposito.save();
+
+            return response.status(200).json(deposito, {
+                message: "Depósito restaurado com sucesso"
+            });
+
+        } catch (error) {
+            const status = error.message.status || 400
+            const message = error.message.msg || error.message
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de restaurar depósito",
+                cause: message
+            });
+        }
+    }
+
+
 }
 
 module.exports = new DepositoController()
