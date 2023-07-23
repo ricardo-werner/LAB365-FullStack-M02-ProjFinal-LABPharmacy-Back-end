@@ -314,6 +314,7 @@ class UsuarioController {
         }
     }
 
+    //Definir o endpoint para restaurar usuário (retauração lógica)
     async restoreOneUsuario(require, response) {
         try {
             const { id } = require.params;
