@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 const { INTEGER, STRING, ENUM, FLOAT } = require('sequelize');
 const { connection } = require('../database/connection');
+const { Usuario } = require('./usuario');
 
 const Deposito = connection.define("deposito", {
   usuario_id: {

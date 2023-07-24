@@ -102,7 +102,4 @@ const Usuario = connection.define("usuario", {
     timestamps: true
   })
 
-  
-
-
 module.exports = { Usuario }

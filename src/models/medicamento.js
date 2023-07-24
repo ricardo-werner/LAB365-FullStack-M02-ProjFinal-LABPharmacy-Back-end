@@ -1,6 +1,8 @@
 const { INTEGER, STRING, ENUM, DECIMAL } = require('sequelize');
 const { connection } = require('../database/connection');
+const { Usuario } = require('./usuario');
 const { Deposito } = require('./deposito');
+const { DepositosMedicamentos } = require('./depositosMedicamentos');
 
 
 const Medicamento = connection.define("medicamento", {
@@ -16,22 +18,6 @@ const Medicamento = connection.define("medicamento", {
         },
         notNull: {
             message: "Usuário não se pode deixar vazio",
-        },
-    },
-    deposito_id: {
-        type: INTEGER,
-        foreignKey: true,
-        allowNull: false,
-        references: {
-            model: {
-                tableName: 'depositos',
-            },
-            key: 'id'
-        },
-        validate: {
-            notNull: {
-                message: "Depósito não se pode deixar vazio",
-            },
         },
     },
     medicamento_nome: {
@@ -126,8 +112,8 @@ const Medicamento = connection.define("medicamento", {
     }
 );
 
-Medicamento.belongsToMany(Deposito, { through: 'depositos_medicamentos', foreignKey: 'medicamento_id' })
-Deposito.belongsToMany(Medicamento, { through: 'depositos_medicamentos', foreignKey: 'deposito_id' })
+Medicamento.belongsToMany(Deposito, { through: DepositosMedicamentos });
+Deposito.belongsToMany(Medicamento, { through: DepositosMedicamentos });
 
 Usuario.hasMany(Medicamento)
 

@@ -3,7 +3,6 @@ const { INTEGER, STRING, ENUM, FLOAT } = require('sequelize');
 const { connection } = require('../database/connection');
 
 const DepositosMedicamentos = connection.define("deposito_medicamento", {
-
     deposito_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
