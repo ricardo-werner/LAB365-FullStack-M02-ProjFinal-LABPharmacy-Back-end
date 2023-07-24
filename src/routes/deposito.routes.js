@@ -1,6 +1,7 @@
 const {
     createOneDeposito,
     listAllDepositos,
+    listAllDepositosStatus,
     listOneDeposito,
     updateOneDeposito,
     updateOneDepositoStatus,
@@ -15,6 +16,7 @@ class DepositoRouter {
         const depositoRoutes = Router()
         depositoRoutes.post('/createOneDeposito', auth, createOneDeposito)
         depositoRoutes.get('/listAllDepositos', auth, listAllDepositos)
+        depositoRoutes.get('/listAllDepositosStatus/:status', auth, listAllDepositosStatus)
         depositoRoutes.get('/listOneDeposito/:id', auth, listOneDeposito)
         depositoRoutes.patch('/updateOneDeposito/:id', auth, updateOneDeposito)
         depositoRoutes.patch('/updateOneDepositoStatus/:id/status', auth, updateOneDepositoStatus)

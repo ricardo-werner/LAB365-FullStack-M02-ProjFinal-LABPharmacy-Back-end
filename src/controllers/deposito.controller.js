@@ -1,4 +1,5 @@
 const { Deposito } = require('../models/deposito')
+const { Medicamento } = require('../models/medicamento')
 const { response } = require('express')
 const { config } = require('dotenv')
 config()
@@ -82,6 +83,30 @@ class DepositoController {
             const message = error.message.msg || error.message
             return response.status(parseInt(status)).send({
                 message: "Falha na operação de listar os depósitos",
+                cause: message
+            });
+        }
+    }
+
+    async listAllDepositosStatus(request, response) {
+        try {
+            const { status } = request.params;
+
+            let whereCondition = {};
+            if (status === 'ativo' || status === 'inativo') {
+                whereCondition = { status };
+            }
+
+            const depositos = await Deposito.findAll({
+                where: whereCondition,
+            });
+
+            return response.status(200).send(depositos);
+        } catch (error) {
+            const status = error.message.status || 400;
+            const message = error.message.msg || error.message;
+            return response.status(parseInt(status)).send({
+                message: "Falha na operação de listar depósitos",
                 cause: message
             });
         }
@@ -267,14 +292,6 @@ class DepositoController {
                 return response.status(404).send({ error: 'Depósito não encontrado' });
             }
 
-            // Verifica se o depósito já está inativo
-            if (deposito.status !== 'inativo') {
-                return response.status(400).send({
-                    message: "Falha na operação de deletar depósito",
-                    cause: "O depósito deve estar com status inativo para ser deletado"
-                });
-            }
-
             // Verifica se existe medicamentos associado ao depósito
             const medicamentos = await Medicamento.findAll({
                 where: { deposito_id: id }
@@ -284,6 +301,14 @@ class DepositoController {
                 return response.status(400).send({
                     message: "Falha na operação de deletar depósito",
                     cause: "Existem medicamentos associados ao depósito"
+                });
+            }
+
+            // Verifica se o depósito já está inativo
+            if (deposito.status !== 'inativo') {
+                return response.status(400).send({
+                    message: "Falha na operação de deletar depósito",
+                    cause: "O depósito deve estar com status inativo para ser deletado"
                 });
             }
 
