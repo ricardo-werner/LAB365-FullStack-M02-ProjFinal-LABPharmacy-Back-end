@@ -1,6 +1,4 @@
 const { Deposito } = require('../models/deposito')
-const { Usuario } = require('../models/usuario')
-const { Medicamento } = require('../models/medicamento')
 const { response } = require('express')
 const { config } = require('dotenv')
 config()
@@ -258,20 +256,39 @@ class DepositoController {
         }
     }
 
-    //Definir o endpoint para deletar usuário (deleção lógica)
+    //Definir o endpoint para deletar Depósito (deleção lógica)
     async deleteOneDeposito(require, response) {
         try {
             const { id } = require.params;
 
+            // Verifica se o depósito existe
             const deposito = await Deposito.findByPk(id, { paranoid: true });
             if (!deposito) {
                 return response.status(404).send({ error: 'Depósito não encontrado' });
             }
 
-            if (deposito.status === 'ativo') {
-                deposito.status = 'inativo';
-                await deposito.destroy(); // Realiza o Soft Delete
+            // Verifica se o depósito já está inativo
+            if (deposito.status !== 'inativo') {
+                return response.status(400).send({
+                    message: "Falha na operação de deletar depósito",
+                    cause: "O depósito deve estar com status inativo para ser deletado"
+                });
             }
+
+            // Verifica se existe medicamentos associado ao depósito
+            const medicamentos = await Medicamento.findAll({
+                where: { deposito_id: id }
+            });
+
+            if (medicamentos.length > 0) {
+                return response.status(400).send({
+                    message: "Falha na operação de deletar depósito",
+                    cause: "Existem medicamentos associados ao depósito"
+                });
+            }
+
+            // Realiza o Soft Delete
+            await deposito.destroy();
 
             return response.status(204).send(deposito);
         } catch (error) {
