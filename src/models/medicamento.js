@@ -8,16 +8,28 @@ const { DepositosMedicamentos } = require('./depositosMedicamentos');
 const Medicamento = connection.define("medicamento", {
     usuario_id: {
         type: INTEGER,
-        foreignKey: true,
         allowNull: false,
         references: {
             model: {
                 tableName: 'usuarios',
-            },
-            key: 'id'
+                key: 'id'
+            }
         },
         notNull: {
             message: "Usuário não se pode deixar vazio",
+        },
+    },
+    deposito_id: {
+        type: INTEGER,
+        allowNull: false,
+        references: {
+            model: {
+                tableName: 'depositos',
+                key: 'id'
+            }
+        },
+        notNull: {
+            message: "Depósito não se pode deixar vazio",
         },
     },
     medicamento_nome: {
@@ -112,8 +124,8 @@ const Medicamento = connection.define("medicamento", {
     }
 );
 
-Medicamento.belongsToMany(Deposito, { through: DepositosMedicamentos });
-Deposito.belongsToMany(Medicamento, { through: DepositosMedicamentos });
+Medicamento.belongsToMany(Deposito, { through: 'DepositosMedicamentos'});
+Deposito.belongsToMany(Medicamento, { through: 'DepositosMedicamentos' });
 
 Usuario.hasMany(Medicamento)
 
