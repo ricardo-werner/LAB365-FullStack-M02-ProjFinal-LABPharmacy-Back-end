@@ -8,7 +8,7 @@ const Deposito = connection.define("deposito", {
     allowNull: false,
     foreignKey: true,
     references: {
-      model:{
+      model: {
         tableName: 'usuarios',
       },
       key: 'id'
@@ -174,11 +174,6 @@ const Deposito = connection.define("deposito", {
     timestamps: true
   });
 
-  Deposito.belongsTo(Usuario);
-
-
-
-
-
+Deposito.belongsTo(Usuario);
 
 module.exports = { Deposito }
