@@ -20,13 +20,13 @@ Status - Em Desenvolvimento
 
 
 ### O Desafio
-Neste projeto foi proposto criar um Back-end, em Node, Express.JS, Sequelize em Banco de Dados PostgreSQL, para gerenciamento de depósitos e medicamentos em complemento ao projeto do módulo01 - LABPharmacy Inc.
+Neste projeto foi proposto criar um Back-end, em Node.JS, Express.JS, Sequelize em Banco de Dados PostgreSQL, para gerenciamento de depósitos e medicamentos em complemento ao projeto do módulo01 - LABPharmacy Inc.
 
 ### Requisitos da Aplicação
 
 | Item  | Descrição                                            
 | ----- | ---------------------------------------------------------------------------- |
-|  1    |  Ser uma API Rest desenvolvida em Node com uso do Express.js.                |
+|  1    |  Ser uma API Rest desenvolvida em Node.JS com uso do Express.js.                |
 |  2    |  Utilizar o banco de dados PostgreSQL.                                       |
 |  3    |  Ser planejado utilizando o modelo Kanban na ferramenta Trello.              |
 |  4    |  Ser versionado no GITHub, possuindo uma documentação detalhada no readme.md.|
@@ -61,8 +61,8 @@ No desenvolvimento desta aplicação, colocamos em prática:
 
 | Item  | Descrição                                            
 | ----- | ------------- |
-|  1    |  Node         |
-|  2    |  Express.JS      |
+|  1    |  Node.JS      |
+|  2    |  Express.JS   |
 |  3    |  Sequelize    |
 |  4    |  Skills       |
 
@@ -70,20 +70,20 @@ No desenvolvimento desta aplicação, colocamos em prática:
 
 - Visual Studio Code
 - Trello
-- Node
+- Node.JS
 
-Por ainda ser uma estrutura nova para mim, o projeto de backend "Craição de gerenciameto de Depósitos e Medicamentos com Node, Express.JS e Sequelizeme banco d dados PstgreSQL, proporcionu uma experiência enriquecedora no desenvolvimento de estruturas de migrations, models, routes e controllers, onde foi possível compreender as estruturas de exportação e importação dos componentes e pensar em como estruturar uma aplicação de forma à facilitar as futuras manutenções.
+Por ainda ser uma estrutura nova para mim, o projeto de backend "Criação de gerenciamento de Depósitos e Medicamentos" com Node.JS, Express.JS e Sequelize em banco d dados PostgreSQL, proporcionou uma experiência enriquecedora no desenvolvimento de estruturas de migrations, models, routes e controllers, onde foi possível compreender as estruturas de exportação e importação dos componentes e pensar em como estruturar uma aplicação de forma à facilitar as futuras manutenções.
 
 ## Para utilizar este projeto como base, faça o seguinte passo-a-passo:
 
 Clone o projeto para a sua máquina
 ```bash
-
+git@github.com:ricardo-werner/LAB365-FullStack-M02-ProjFinal-LABPharmacy-Back-end.git
 ```
 Obs: necessário configurar SSH [(veja como clicando aqui)](https://www.youtube.com/watch?v=n-H1eFSsugo)
 
 Instale as dependências.
-Nota - para rodar este comando é necessário ter instalado no computador o NodeJS e o Node Package Manager(NPM)
+Nota - para rodar este comando é necessário ter instalado no computador o Node.JS e o Node Package Manager(NPM)
 
 ```bash
 npm install
