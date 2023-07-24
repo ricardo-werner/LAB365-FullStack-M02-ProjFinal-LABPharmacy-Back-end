@@ -8,7 +8,9 @@ const Deposito = connection.define("deposito", {
     allowNull: false,
     foreignKey: true,
     references: {
-      model: 'usuarios',
+      model:{
+        tableName: 'usuarios',
+      },
       key: 'id'
     },
     validate: {
@@ -172,20 +174,11 @@ const Deposito = connection.define("deposito", {
     timestamps: true
   });
 
+  Deposito.belongsTo(Usuario);
 
 
 
 
-// Deposito.associate = (models) => {
-//   Deposito.hasMany(models.Usuario, {
-//     foreignKey: 'usuario_id',
-//     as: 'usuario'
-//   });
-//   Deposito.hasMany(models.Medicamento, {
-//     foreignKey: 'deposito_id',
-//     as: 'medicamentos'
-//   });
-// }
 
 
 module.exports = { Deposito }

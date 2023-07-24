@@ -1,7 +1,6 @@
 const { STRING, DATE, ENUM } = require('sequelize')
 const { connection } = require('../database/connection')
 
-
 const Usuario = connection.define("usuario", {
   nome: {
     type: STRING,
@@ -103,16 +102,7 @@ const Usuario = connection.define("usuario", {
     timestamps: true
   })
 
-// Usuario.associate = (models) => {
-//   Usuario.hasMany(models.Medicamentos, {
-//     foreignKey: "usuario_id",
-//     allowNull: false,
-//   });
+  
 
-//   Usuario.hasMany(models.Depositos, {
-//     foreignKey: "usuario_id",
-//     allowNull: false,
-//   });
-//};
 
 module.exports = { Usuario }
