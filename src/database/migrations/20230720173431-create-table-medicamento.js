@@ -17,14 +17,6 @@ module.exports = {
           key: 'id'
         }
       },
-      deposito_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'depositos',
-          key: 'id'
-        }
-      },
       medicamento_nome: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -83,7 +75,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('medicamentos');
     return Promise.all([
-      queryInterface.sequelize.query(
+      queryInterface.lize.query(
         'DROP TYPE IF EXISTS "enum_medicamentos_tipo_medicamento";'
       ),
     ]);
