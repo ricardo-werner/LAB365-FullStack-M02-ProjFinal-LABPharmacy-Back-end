@@ -1,7 +1,5 @@
 const { Medicamento } = require('../models/medicamento')
 const { Deposito } = require('../models/deposito')
-const { Usuario } = require('../models/usuario')
-const { response } = require('express')
 
 class MedicamentoController {
     async createOneMedicamento(request, response) {
@@ -67,11 +65,19 @@ class MedicamentoController {
         }
     }
 
-    async listAllMedicamentos(request, response) {
+    async listAllMedicamentoTipo(request, response) {
         try {
-            const medicamento = await Medicamento.findAll()
+            let data = null;
+            const { medicamento_tipo } = request.query;
+            if (!medicamento_tipo) {
+                data = await Medicamento.findAll()
+            } else {
+                data = await Medicamento.findAll({
+                    where: { medicamento_tipo: medicamento_tipo }
+                })
+            }
 
-            return response.status(200).send(medicamento)
+            return response.status(200).send(data)
         } catch (error) {
             const status = error.message.status || 400
             const message = error.message.msg || error.message
