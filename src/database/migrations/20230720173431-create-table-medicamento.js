@@ -53,9 +53,9 @@ module.exports = {
       },
       medicamento_tipo: {
         type: Sequelize.ENUM,
-        values: ['Medicamento Controlado', 'Medicamento Não Controlado'],
+        values: ['Controlado', 'Não Controlado'],
         allowNull: false,
-        defaultValue: 'Medicamento Não Controlado'
+        defaultValue: 'Não Controlado'
       },
       status: {
         type: Sequelize.ENUM,
