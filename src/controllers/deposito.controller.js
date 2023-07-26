@@ -248,9 +248,8 @@ class DepositoController {
     async updateOneDepositoStatus(request, response) {
         try {
             const { id } = request.params;
-            const { status } = request.body;
 
-            const deposito = await Deposito.findByPk(id);
+            const deposito = await Deposito.findOne({ where: { id } });
             if (!deposito) {
                 return response.status(404).send({
                     message: "Falha na operação de atualizar status do depósito",
@@ -258,12 +257,7 @@ class DepositoController {
                 });
             }
 
-            if (status !== 'ativo' && status !== 'inativo') {
-                return response.status(404).send({
-                    message: "Falha na operação de atualizar status do depósito",
-                    cause: "Status do depósito não encontrado"
-                });
-            }
+            const status = (deposito.status === "ativo") ? 'inativo' : 'ativo'
 
             await Deposito.update({ status }, { where: { id } });
 
@@ -282,26 +276,73 @@ class DepositoController {
     }
 
     //Definir o endpoint para deletar Depósito (deleção lógica)
-    async deleteOneDeposito(require, response) {
+    // async deleteOneDeposito(require, response) {
+    //     try {
+    //         const { id } = require.params;
+
+    //         // Verifica se o depósito existe
+    //         const deposito = await Deposito.findByPk(id, { paranoid: true });
+    //         if (!deposito) {
+    //             return response.status(404).send({ error: 'Depósito não encontrado' });
+    //         }
+
+    //         // Verifica se existe medicamentos associado ao depósito
+    //         const medicamentos = await Medicamento.findAll({
+    //             where: { deposito_id: id }
+    //         });
+
+    //         if (medicamentos.length > 0) {
+    //             return response.status(400).send({
+    //                 message: "Falha na operação de deletar depósito",
+    //                 cause: "Existem medicamentos associados ao depósito"
+    //             });
+    //         }
+
+    //         // Verifica se o depósito já está inativo
+    //         if (deposito.status !== 'inativo') {
+    //             return response.status(400).send({
+    //                 message: "Falha na operação de deletar depósito",
+    //                 cause: "O depósito deve estar com status inativo para ser deletado"
+    //             });
+    //         }
+
+    //         // Realiza o Soft Delete
+    //         await deposito.destroy();
+
+    //         return response.status(204).send(deposito);
+    //     } catch (error) {
+    //         const status = error.message.status || 400
+    //         const message = error.message.msg || error.message
+    //         return response.status(parseInt(status)).send({
+    //             message: "Falha na operação de deletar despósito",
+    //             cause: message
+    //         });
+    //     }
+    // }
+
+    async deleteOneDeposito(request, response) {
         try {
-            const { id } = require.params;
+            const { id } = request.params;
+            const { status, medicamento_id } = request.body;
 
-            // Verifica se o depósito existe
-            const deposito = await Deposito.findByPk(id, { paranoid: true });
-            if (!deposito) {
-                return response.status(404).send({ error: 'Depósito não encontrado' });
-            }
-
-            // Verifica se existe medicamentos associado ao depósito
             const medicamentos = await Medicamento.findAll({
                 where: { deposito_id: id }
             });
 
             if (medicamentos.length > 0) {
-                return response.status(400).send({
-                    message: "Falha na operação de deletar depósito",
-                    cause: "Existem medicamentos associados ao depósito"
-                });
+                // Verifica se algum medicamento está com status "disponivel"
+                const hasMedicamentoDisponivel = medicamentos.some(medicamento => medicamento.status === 'disponivel');
+                if (hasMedicamentoDisponivel) {
+                    return response.status(400).send({
+                        message: "Falha na operação de deletar depósito",
+                        cause: "Existem medicamentos com status disponivel associados ao depósito"
+                    });
+                }
+            }
+            // Verifica se o depósito existe
+            const deposito = await Deposito.findByPk(id, { paranoid: true });
+            if (!deposito) {
+                return response.status(404).send({ error: 'Depósito não encontrado' });
             }
 
             // Verifica se o depósito já está inativo
@@ -313,18 +354,19 @@ class DepositoController {
             }
 
             // Realiza o Soft Delete
-            await deposito.destroy();
+            await deposito.destroy({ where: { id } });
 
-            return response.status(204).send(deposito);
+            return response.status(204).send();
         } catch (error) {
-            const status = error.message.status || 400
-            const message = error.message.msg || error.message
+            const status = error.message.status || 400;
+            const message = error.message.msg || error.message;
             return response.status(parseInt(status)).send({
-                message: "Falha na operação de deletar despósito",
-                cause: message
+                message: "Falha na operação de deletar depósito",
+                cause: message,
             });
         }
     }
+
 
     //Definir o endpoint para restaurar usuário (restauração lógica)
     async restoreOneDeposito(require, response) {
