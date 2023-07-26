@@ -79,7 +79,7 @@ const Medicamento = connection.define("medicamento", {
         },
     },
     medicamento_tipo: {
-        type: ENUM('Medicamento Controlado', 'Medicamento Não Controlado'),
+        type: ENUM('Controlado', 'Não Controlado'),
         allowNull: false,
         validate: {
             notNull: {
@@ -124,7 +124,7 @@ const Medicamento = connection.define("medicamento", {
     }
 );
 
-Medicamento.belongsToMany(Deposito, { through: 'DepositosMedicamentos'});
+Medicamento.belongsToMany(Deposito, { through: 'DepositosMedicamentos' });
 Deposito.belongsToMany(Medicamento, { through: 'DepositosMedicamentos' });
 
 Usuario.hasMany(Medicamento)
