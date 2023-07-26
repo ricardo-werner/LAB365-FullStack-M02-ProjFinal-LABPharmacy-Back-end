@@ -1,6 +1,6 @@
 const {
     createOneMedicamento,
-    listAllMedicamentos,
+    listAllMedicamentoTipo,
     listOneMedicamento,
     updateOneMedicamento,
     updateOneMedicamentoStatus,
@@ -14,7 +14,7 @@ class MedicamentoRouter {
     routesFromMedicamento() {
         const medicamentoRoutes = Router()
         medicamentoRoutes.post('/createOneMedicamento', auth, createOneMedicamento)
-        medicamentoRoutes.get('/listAllMedicamentos', auth, listAllMedicamentos)
+        medicamentoRoutes.get('/listAllMedicamentoTipo', auth, listAllMedicamentoTipo)
         medicamentoRoutes.get('/listOneMedicamento/:id', auth, listOneMedicamento)
         medicamentoRoutes.patch('/updateOneMedicamento/:id', auth, updateOneMedicamento)
         medicamentoRoutes.patch('/updateOneMedicamentoStatus/:id/status', auth, updateOneMedicamentoStatus)
