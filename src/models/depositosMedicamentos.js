@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const { INTEGER, STRING, ENUM, FLOAT } = require('sequelize');
+const { INTEGER, DATE } = require('sequelize');
 const { connection } = require('../database/connection');
 
 const DepositosMedicamentos = connection.define("depositos_medicamentos", {
