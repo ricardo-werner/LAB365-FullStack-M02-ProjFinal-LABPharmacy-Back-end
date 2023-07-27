@@ -1,6 +1,4 @@
 const { Usuario } = require('../models/usuario')
-const { Deposito } = require('../models/deposito')
-const { Medicamento } = require('../models/medicamento')
 const { senha } = require('../models/usuario')
 const { SECRET_KEY_JWT } = require('../config/database.config')
 const { config } = require('dotenv')
@@ -65,8 +63,6 @@ class UsuarioController {
                 senha
             } = request.body;
 
-            //console.log(request.body)
-
             const usuario = await Usuario.findOne({
                 where: { email: email }
             })
@@ -85,12 +81,9 @@ class UsuarioController {
                 });
             }
 
-            console.log(usuario)
-
             const payload = { "email": usuario.email, "senha": usuario.senha }
             const token = sign(payload, process.env.SECRET_KEY_JWT, { expiresIn: '1d' })
-            console.log(token)
-            console.log("Senha Igual")
+
             return response.status(200).send({ "token": token })
 
         } catch (error) {
@@ -222,7 +215,7 @@ class UsuarioController {
 
             await Usuario.update({ status }, { where: { id } });
 
-            // Recuperar o usuário atualizado para retornar na resposta
+            // Recupera o usuário atualizado para retornar na resposta
             const usuarioAtualizado = await Usuario.findByPk(id);
 
             return response.status(200).send(usuarioAtualizado);
@@ -239,9 +232,7 @@ class UsuarioController {
     async updateOneSenha(request, response) {
         try {
             const { id } = request.params;
-            const {
-                senha
-            } = request.body;
+            const { senha } = request.body;
 
             if (!usuario) {
                 return response.status(404).send({
@@ -286,11 +277,13 @@ class UsuarioController {
     //             message: "Usuário deletado com sucesso"
     //         });
     //     } catch (error) {
-    //         return response.status(400).send({
-    //             message: "Falha na operação de deletar usuário",
-    //             cause: error.message
-    //         });
-    //     }
+    //       const status = error.message.status || 400
+    //       const message = error.message.msg || error.message
+    //       return response.status(parseInt(status)).send({
+    //            message: "Falha na operação de deletar usuário",
+    //            cause: message
+    //        });
+    //    }
     // }
 
 
