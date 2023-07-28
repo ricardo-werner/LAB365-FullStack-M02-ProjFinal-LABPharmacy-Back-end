@@ -17,6 +17,24 @@ Status - Em Desenvolvimento
 
 ### Demonstração
 
+Tela do Pharmacy Central System
+<p align="center">
+  <img width="480" src="src/assets/to_readme/telaSistema.JPG">
+</p>
+
+Tela do arquivo json com os dados das farmácias
+<p align="center">
+  <img width="480" src="src/assets/to_readme/jsonPharmacys.JPG">
+</p>
+Tela do arquivo json com os dados dos medicamentos
+<p align="center">
+  <img width="480" src="src/assets/to_readme/jsonMedications.jpg">
+</p>
+Video do Pharmacy Central System
+<p align="center">
+    <img width="480" src="src/assets/to_readme/PharmaCentralSystem.gif">
+</p>
+
 
 
 ### O Desafio
