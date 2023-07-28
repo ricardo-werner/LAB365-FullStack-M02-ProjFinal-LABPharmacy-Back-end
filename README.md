@@ -83,11 +83,13 @@ Neste projeto foi proposto criar um Back-end, em Node.JS, Express.JS, Sequelize 
 No desenvolvimento desta aplicação, colocamos em prática:
 
 | Item  | Descrição                                            
-| ----- | ------------- |
-|  1    |  Node.JS      |
-|  2    |  Express.JS   |
-|  3    |  Sequelize    |
-|  4    |  Skills       |
+| ----- | --------------- |
+|  1    |  Node.JS        |
+|  2    |  Express.JS     |
+|  3    |  Sequelize      |
+|  4    |  PostgreSQL     |
+|  5    |  Thunder Client |
+|  6    |  Skills         |
 
 ### Tecnologias utilizadas:
 
