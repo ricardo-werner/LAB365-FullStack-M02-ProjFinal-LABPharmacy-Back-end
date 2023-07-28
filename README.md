@@ -3,7 +3,7 @@
 ## Projeto Avaliativo do Módulo2
 ### LAB365- FullStack - Itaguaçu
 
-#### Criação de sistema de gerenciamento de Depósitos e Medicamentos com Node, Express.JS, Sequelize em Banco de Dados PostgreSQL
+#### Criação de sistema de gerenciamento de Depósitos e Medicamentos com Node.JS, Express.JS, Sequelize em Banco de Dados PostgreSQL
 #### Nome do sistema: Pharmacy Central System 
 
 ### 🔗 Links
@@ -97,6 +97,12 @@ No desenvolvimento desta aplicação, colocamos em prática:
 
 Por ainda ser uma estrutura nova para mim, o projeto de backend "Criação de gerenciamento de Depósitos e Medicamentos" com Node.JS, Express.JS e Sequelize em banco d dados PostgreSQL, proporcionou uma experiência enriquecedora no desenvolvimento de estruturas de migrations, models, routes e controllers, onde foi possível compreender as estruturas de exportação e importação dos componentes e pensar em como estruturar uma aplicação de forma à facilitar as futuras manutenções.
 
+### Nota - Para que o sistema funcione corretamente, primeiramente é necessário ter instalado no seu computador:
+- Node.JS
+- Node Package Manager(NPM)
+- PostgreSQL (Base de dados)
+- DBeaver (Gerenciador de banco de dados)
+
 ## Para utilizar este projeto como base, faça o seguinte passo-a-passo:
 
 Clone o projeto para a sua máquina
@@ -106,14 +112,11 @@ git@github.com:ricardo-werner/LAB365-FullStack-M02-ProjFinal-LABPharmacy-Back-en
 Obs: necessário configurar SSH [(veja como clicando aqui)](https://www.youtube.com/watch?v=n-H1eFSsugo)
 
 Instale as dependências.
-Nota - para rodar este comando é necessário ter instalado no computador o Node.JS e o Node Package Manager(NPM)
-
 ```bash
 npm install
 ```
 
 - Rode o projeto
-
 ```bash
 npm run start:dev
 ```
