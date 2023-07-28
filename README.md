@@ -13,28 +13,33 @@
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ricardo-werner)
 
 
-Status - Em Desenvolvimento
+Status - Concluído
 
 ### Demonstração
 
-Tela do Pharmacy Central System
+Estrutura geral do back end do Pharmacy Central System
 <p align="center">
-  <img width="480" src="src/assets/to_readme/telaSistema.JPG">
+  <img width="480" src="src/assets/to_readme/estruturaFoldersTables.jpg">
 </p>
 
-Tela do arquivo json com os dados das farmácias
+Estrutura geral do back end das Tabelas
 <p align="center">
-  <img width="480" src="src/assets/to_readme/jsonPharmacys.JPG">
-</p>
-Tela do arquivo json com os dados dos medicamentos
-<p align="center">
-  <img width="480" src="src/assets/to_readme/jsonMedications.jpg">
-</p>
-Video do Pharmacy Central System
-<p align="center">
-    <img width="480" src="src/assets/to_readme/PharmaCentralSystem.gif">
+  <img width="480" src="src/assets/to_readme/geralTabelas.jpg">
 </p>
 
+Estrutura geral do back end dos Usuários
+<p align="center">
+  <img width="480" src="src/assets/to_readme/usuarioTable.jpg">
+</p>
+
+Estrutura geral do back end dos Depósitos
+<p align="center">
+  <img width="480" src="src/assets/to_readme/depositoTable.jpg">
+</p>
+Estrutura geral do back end dos Medicamentos
+<p align="center">
+  <img width="480" src="src/assets/to_readme/medicamentoTable.jpg">
+</p>
 
 
 ### O Desafio
